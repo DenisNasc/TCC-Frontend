@@ -1,7 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Grid, Paper, Typography} from '@material-ui/core';
+
+import useReduxStore from 'hooks/useReduxStore';
 
 import Header from 'components/Header';
 
@@ -10,8 +13,17 @@ import FormSignup from 'components/login/FormSignup';
 
 const Login: React.FC = () => {
     const classes = useStyles();
-
+    const history = useHistory();
+    const {
+        user: {id},
+    } = useReduxStore();
     const [login, setLogin] = useState(false);
+
+    useEffect(() => {
+        if (id) {
+            history.push('/home');
+        }
+    }, [id]);
 
     const handleClick = () => {
         setLogin(!login);

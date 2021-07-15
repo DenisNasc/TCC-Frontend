@@ -2,6 +2,8 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 
+import useLocalStorage from 'hooks/useLocalStorage';
+
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Avatar, Button, Divider, IconButton, Paper, Typography} from '@material-ui/core';
 import {Brightness7 as IconBrightness7, Brightness4 as IconBrightness4} from '@material-ui/icons';
@@ -14,6 +16,8 @@ import {USER_LOGOUT} from 'state/actions/user';
 const Header: React.FC = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
+
+    const [userJWT, setUserJWT] = useLocalStorage('user_token', false);
 
     const history = useHistory();
     const params = useParams<{userId: string}>();
@@ -32,6 +36,7 @@ const Header: React.FC = () => {
     };
 
     const handleLogoutClick = () => {
+        setUserJWT(null);
         dispatch({type: USER_LOGOUT, payload: {}});
     };
 

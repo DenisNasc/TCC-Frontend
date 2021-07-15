@@ -1,37 +1,80 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Divider, Paper, Typography} from '@material-ui/core';
 
-import {USER_LOGIN} from 'state/actions/user';
+import {axiosDevInstance} from 'axiosInstances';
+
+import useLocalStorage from 'hooks/useLocalStorage';
 
 import FormInput from 'components/shared/FormInput';
+import DisplayMessage, {PropsDisplayMessage} from 'components/shared/DisplayMessage';
 
-const FormLogin = () => {
+const FormLogin: React.FC = () => {
     const classes = useStyles();
-    const [formValues, setFormValues] = useState({email: '', password: ''});
+    const history = useHistory();
 
-    const dispatch = useDispatch();
+    const [_, setLocalStorageUserJWT] = useLocalStorage('user_token', false);
+
+    const [formValues, setFormValues] = useState({email: '', password: ''});
+    const [fetchStates, setFetchStates] = useState({start: false, success: false, fail: false});
+    const [serverMessage, setServerMessage] = useState<PropsDisplayMessage>({
+        message: '',
+        type: 'error',
+    });
+
+    const {email, password} = formValues;
+    const {start} = fetchStates;
+
+    useEffect(() => {
+        if (!start) return;
+
+        const verifyUserAuth = async () => {
+            try {
+                const {data: dataToken} = await axiosDevInstance({}).post('/auth', {
+                    email,
+                    password,
+                });
+
+                const {access_token: accessToken} = dataToken;
+
+                setLocalStorageUserJWT(accessToken);
+                setFetchStates({start: false, success: true, fail: false});
+                setServerMessage({
+                    type: 'success',
+                    message: 'Login feito com sucesso!',
+                });
+
+                history.push('/home');
+            } catch (error) {
+                const {status} = error.response;
+
+                let message = '';
+                switch (status) {
+                    case 401: {
+                        message = 'As credenciais não estão cadastradas';
+                        break;
+                    }
+                    default: {
+                        message = '';
+                    }
+                }
+
+                setServerMessage({
+                    type: 'error',
+                    message,
+                });
+                setFetchStates({start: false, success: false, fail: true});
+            }
+        };
+        verifyUserAuth();
+    }, [start]);
 
     const toLogin = (event: React.FormEvent<HTMLDivElement>) => {
         event.preventDefault();
 
-        console.log(formValues);
-
-        // TODOS ESSES DADOS DEVEM SER COLETADOS DO BACKEND
-
-        dispatch({
-            type: USER_LOGIN,
-            payload: {
-                email: formValues.email,
-                name: 'Denis Nascimento',
-                projects: [],
-                id: '777',
-                token: 'token',
-            },
-        });
-        // history.replace("/home");
+        setFetchStates({start: true, success: false, fail: false});
     };
 
     return (
@@ -54,7 +97,12 @@ const FormLogin = () => {
                 values={formValues}
                 setValue={setFormValues}
             />
-            <Button type="submit">Submit</Button>
+            {serverMessage.message && (
+                <DisplayMessage message={serverMessage.message} type={serverMessage.type} />
+            )}
+            <Button disabled={start} type="submit">
+                Submit
+            </Button>
         </Paper>
     );
 };

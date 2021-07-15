@@ -6,6 +6,8 @@ import {Box} from '@material-ui/core';
 import DefaultTemplate from 'styles/templates';
 
 import useReduxStore from 'hooks/useReduxStore';
+import useLocalStorage from 'hooks/useLocalStorage';
+import usePopulateUserState from 'hooks/usePopulateUserState';
 
 import SearchFIeld from 'components/home/SearchFIeld';
 import CreateNewProject from 'components/home/CreateNewProject';
@@ -16,6 +18,9 @@ const Home: React.FC = () => {
     const {
         user: {projects},
     } = useReduxStore();
+    const [userJWT, _] = useLocalStorage('user_token', false);
+
+    usePopulateUserState(userJWT);
 
     return (
         <DefaultTemplate title="home">

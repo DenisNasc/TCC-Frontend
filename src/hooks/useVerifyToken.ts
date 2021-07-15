@@ -8,7 +8,7 @@ const useVerifyUserJWT = (userJWT: string) => {
     useEffect(() => {
         const verifyUserJWTOnServer = async () => {
             try {
-                const {data} = await axiosDevInstance.post('/auth', userJWT);
+                const {data} = await axiosDevInstance({}).post('/auth', userJWT);
                 setAnswerFromServer(data);
             } catch (error) {
                 setAnswerFromServer(null);

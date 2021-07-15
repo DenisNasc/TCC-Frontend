@@ -46,11 +46,11 @@ const UserContextReducer: TypeUserReducer = (state = initialState, action) => {
         }
 
         case USER_LOGOUT: {
-            return {...state, id: '', email: '', name: '', projects: []};
+            return {...state, id: '', email: '', name: '', token: '', projects: []};
         }
 
         case USER_LOGIN: {
-            return {...payload};
+            return {...state, ...payload};
         }
 
         case USER_SET_JWT: {
