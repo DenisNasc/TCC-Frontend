@@ -2,9 +2,16 @@ import type {Reducer, Action} from 'redux';
 
 export type TypeProject = {
     id: string;
-    project: string;
+    userID: string;
+    name: string;
     engineer: string;
     shipyard: string;
+
+    lengthOverall: number;
+    lengthPerpendiculars: number;
+    breadth: number;
+    draft: number;
+
     updatedAt: string;
     createdAt: string;
 };

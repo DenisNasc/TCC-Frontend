@@ -45,7 +45,7 @@ const FormSignup: React.FC = () => {
         const createNewUser = async () => {
             try {
                 await axiosDevInstance({}).post('/users', {
-                    username: name,
+                    name,
                     email,
                     password,
                 });

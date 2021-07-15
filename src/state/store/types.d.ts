@@ -5,5 +5,4 @@ import type {TypeProjectsState} from 'state/reducers/projects/types';
 export type TypeStore = {
     app: TypeAppState;
     user: TypeUserState;
-    projects: TypeProjectsState;
 };

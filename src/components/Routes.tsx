@@ -10,13 +10,12 @@ import Home from 'pages/Home';
 import Project from 'pages/Project';
 
 const Routes: React.FC = () => {
-    // VERIFICAR SE HÁ TOKEN NO LOCALSTORAGE, SE TIVER VERIFICAR SE ELE ESTÁ VÁLIDO PARA O LOGIN, SENÃO REDIRECIONAR PARA A PAGE DE LOGIN PADRÃO
     const [userJWT, _] = useLocalStorage('user_token', false);
+    usePopulateUserState(userJWT);
+
     const {
         user: {id: userID},
     } = useReduxStore();
-
-    usePopulateUserState(userJWT);
 
     return (
         <Router>

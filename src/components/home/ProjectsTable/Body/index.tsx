@@ -21,28 +21,15 @@ const Body: React.FC<Props> = ({rows, page, rowsPerPage, filter}) => {
                 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : rows
             )
-                .filter(e => e.project.includes(filter))
+                .filter(e => e.name.includes(filter))
                 .map(e => (
                     <TableRow key={e.id} hover>
-                        <TableCell style={{width: 1}} align="center">
-                            {e.id}
-                        </TableCell>
-                        <TableCell style={{width: 10}} align="center">
-                            {e.project}
-                        </TableCell>
-                        <TableCell style={{width: 1}} align="center">
-                            {e.engineer}
-                        </TableCell>
-                        <TableCell style={{width: 1}} align="center">
-                            {e.shipyard}
-                        </TableCell>
-                        <TableCell style={{width: 1}} align="center">
-                            {e.updatedAt}
-                        </TableCell>
-                        <TableCell style={{width: 1}} align="center">
-                            {e.createdAt}
-                        </TableCell>
-                        <TableCell style={{width: 1}} align="center">
+                        <TableCell align="center">{e.name}</TableCell>
+                        <TableCell align="center">{e.engineer}</TableCell>
+                        <TableCell align="center">{e.shipyard}</TableCell>
+                        <TableCell align="center">{e.updatedAt}</TableCell>
+                        <TableCell align="center">{e.createdAt}</TableCell>
+                        <TableCell align="center">
                             <Actions id={e.id} />
                         </TableCell>
                     </TableRow>

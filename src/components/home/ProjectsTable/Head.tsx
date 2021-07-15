@@ -10,7 +10,6 @@ interface Column {
 }
 
 const columns: Column[] = [
-    {id: 'id', label: 'ID', minWidth: 170, align: 'center'},
     {id: 'project', label: 'Project', minWidth: 100, align: 'center'},
     {
         id: 'engineer',

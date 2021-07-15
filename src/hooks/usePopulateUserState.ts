@@ -23,9 +23,15 @@ const usePopulateUserState = (userJWT: string): void => {
                 Authorization: `jwt ${userJWT}`,
             }).get(`/users/${identity}`);
 
-            const {username: name, email, id, token} = data;
+            console.log(identity);
 
-            const payload = {name, email, id, token};
+            const {data: projects} = await axiosDevInstance({
+                Authorization: `jwt ${userJWT}`,
+            }).get(`/users/${identity}/projects`);
+
+            const {name, email, id, token} = data;
+
+            const payload = {name, email, id, token, projects};
             dispatch({type: USER_LOGIN, payload});
         });
     }, [userJWT]);
