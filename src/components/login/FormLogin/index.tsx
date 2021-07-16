@@ -48,6 +48,15 @@ const FormLogin: React.FC = () => {
 
                 history.push('/home');
             } catch (error) {
+                if (!error || !error.response) {
+                    setServerMessage({
+                        type: 'error',
+                        message: 'Servidor não responde',
+                    });
+                    setFetchStates({start: false, success: false, fail: true});
+                    return;
+                }
+
                 const {status} = error.response;
 
                 let message = '';
@@ -57,7 +66,7 @@ const FormLogin: React.FC = () => {
                         break;
                     }
                     default: {
-                        message = '';
+                        message = 'Erro no servidor';
                     }
                 }
 

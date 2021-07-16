@@ -22,17 +22,6 @@ const UserContextReducer: TypeUserReducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
-        case USER_CREATE_PROJECT: {
-            // const date = new Date();
-            const newProject: TypeProject = {
-                ...payload,
-                createdAt: 1,
-                updatedAt: 1,
-            };
-
-            return {...state};
-        }
-
         case USER_EDIT_PROJECT: {
             const editedProject: TypeProject = {...payload};
             return {...state, projects: state.projects.concat(editedProject)};
