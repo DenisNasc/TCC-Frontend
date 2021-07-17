@@ -27,12 +27,14 @@ const FormLogin: React.FC = () => {
     const {email, password} = formValues;
     const {start} = fetchStates;
 
+    const axiosDev = axiosDevInstance('');
+
     useEffect(() => {
         if (!start) return;
 
         const verifyUserAuth = async () => {
             try {
-                const {data: dataToken} = await axiosDevInstance({}).post('/auth', {
+                const {data: dataToken} = await axiosDev.post('/auth', {
                     email,
                     password,
                 });

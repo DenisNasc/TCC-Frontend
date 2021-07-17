@@ -10,6 +10,7 @@ const SECRET_KEY = 'SUPER-SECRETO';
 
 const usePopulateUserState = (userJWT: string): void => {
     const dispatch = useDispatch();
+    const axiosDev = axiosDevInstance(userJWT);
 
     useEffect(() => {
         jwt.verify(userJWT, SECRET_KEY, async (error: any, decoded: any) => {
@@ -19,19 +20,13 @@ const usePopulateUserState = (userJWT: string): void => {
             }
             const {identity} = decoded;
 
-            const {data} = await axiosDevInstance({
-                Authorization: `jwt ${userJWT}`,
-            }).get(`/users/${identity}`);
+            const {data} = await axiosDev.get(`/users/${identity}`);
 
-            console.log(identity);
+            const {data: projects} = await axiosDev.get(`/users/${identity}/projects`);
 
-            const {data: projects} = await axiosDevInstance({
-                Authorization: `jwt ${userJWT}`,
-            }).get(`/users/${identity}/projects`);
+            const {name, email, id} = data;
 
-            const {name, email, id, token} = data;
-
-            const payload = {name, email, id, token, projects};
+            const payload = {name, email, id, token: userJWT, projects};
             dispatch({type: USER_LOGIN, payload});
         });
     }, [userJWT]);

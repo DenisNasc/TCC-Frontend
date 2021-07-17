@@ -31,6 +31,8 @@ const FormSignup: React.FC = () => {
     const {start} = fetchStates;
     const {password, confirmPassword, name, email} = formValues;
 
+    const axiosDev = axiosDevInstance('');
+
     useEffect(() => {
         if (!start) return;
         if (password !== confirmPassword) {
@@ -44,7 +46,7 @@ const FormSignup: React.FC = () => {
 
         const createNewUser = async () => {
             try {
-                await axiosDevInstance({}).post('/users', {
+                await axiosDev.post('/users', {
                     name,
                     email,
                     password,
@@ -55,7 +57,7 @@ const FormSignup: React.FC = () => {
                     message: 'Usuário criado com sucesso',
                 });
 
-                const {data} = await axiosDevInstance({}).post('/auth', {
+                const {data} = await axiosDev.post('/auth', {
                     email,
                     password,
                 });

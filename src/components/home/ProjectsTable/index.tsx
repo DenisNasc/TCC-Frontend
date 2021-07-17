@@ -24,8 +24,6 @@ const ProjectsTable: React.FC<Props> = ({rows}) => {
         app: {filter},
     } = useReduxStore();
 
-    console.log(rows);
-
     return (
         <TableContainer component={Paper} className={classes.tableContainer}>
             <Table>

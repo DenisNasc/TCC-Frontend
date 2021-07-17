@@ -1,6 +1,6 @@
 import {
     USER_CREATE_PROJECT,
-    USER_EDIT_PROJECT,
+    USER_UPDATE_PROJECTS,
     USER_DELETE_PROJECT,
     USER_LOGIN,
     USER_LOGOUT,
@@ -22,9 +22,8 @@ const UserContextReducer: TypeUserReducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
-        case USER_EDIT_PROJECT: {
-            const editedProject: TypeProject = {...payload};
-            return {...state, projects: state.projects.concat(editedProject)};
+        case USER_UPDATE_PROJECTS: {
+            return {...state, projects: payload.projects};
         }
 
         case USER_DELETE_PROJECT: {
@@ -35,7 +34,14 @@ const UserContextReducer: TypeUserReducer = (state = initialState, action) => {
         }
 
         case USER_LOGOUT: {
-            return {...state, id: '', email: '', name: '', token: '', projects: []};
+            return {
+                id: '',
+                email: '',
+                name: '',
+                token: '',
+                projects: [],
+                errorMessage: '',
+            };
         }
 
         case USER_LOGIN: {

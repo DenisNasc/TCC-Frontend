@@ -1,12 +1,13 @@
-import axios from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 
-export const axiosDevInstance = (headers: any) =>
+export const axiosDevInstance = (jwtAuthToken: string, headers?: any) =>
     axios.create({
         baseURL: 'http://127.0.0.1:5000/v1',
         timeout: 10000,
         headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
+            Authorization: `jwt ${jwtAuthToken}`,
             ...headers,
         },
     });
