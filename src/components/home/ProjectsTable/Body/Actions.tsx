@@ -9,12 +9,14 @@ import {Delete as IconDelete, Edit as IconEdit} from '@material-ui/icons';
 import useReduxStore from 'hooks/useReduxStore';
 import {axiosDevInstance} from 'axiosInstances';
 import {USER_UPDATE_PROJECTS} from 'state/actions/user';
+import {CURRENT_PROJECT_UPDATE} from 'state/actions/projects';
 
 interface Props {
     id: string;
+    name: string;
 }
 
-const ActionsColumn: React.FC<Props> = ({id}) => {
+const ActionsColumn: React.FC<Props> = ({id, name}) => {
     const dispatch = useDispatch();
     const {
         user: {id: userID, token},
@@ -26,22 +28,30 @@ const ActionsColumn: React.FC<Props> = ({id}) => {
         fail: false,
     });
 
+    const [editFetchStates, setEditFetchStates] = useState({
+        start: false,
+        success: false,
+        fail: false,
+    });
+
     const classes = useStyles();
     const history = useHistory();
 
-    const {start} = deleteFetchStates;
+    const {start: deleteStart} = deleteFetchStates;
+    const {start: editStart} = editFetchStates;
+
     const axiosDev = axiosDevInstance(token);
 
     const handleDeleteProject = useCallback(() => {
         setDeleteFetchStates({start: true, success: false, fail: false});
     }, []);
 
-    const editProject = (projectId: string) => {
-        history.push(`/projects/${projectId}`);
-    };
+    const handleEditProject = useCallback(() => {
+        setEditFetchStates({start: true, success: false, fail: false});
+    }, []);
 
     useEffect(() => {
-        if (!start) return;
+        if (!deleteStart) return;
         const deleteProject = async () => {
             try {
                 await axiosDev.delete(`/users/${userID}/projects/${id}`);
@@ -61,7 +71,35 @@ const ActionsColumn: React.FC<Props> = ({id}) => {
         };
 
         deleteProject();
-    }, [start]);
+    }, [deleteStart]);
+
+    useEffect(() => {
+        if (!editStart) return;
+        const editProject = async () => {
+            try {
+                const {data: project} = await axiosDev.get(`/users/${userID}/projects/${id}`);
+
+                const payload = {...project};
+                dispatch({type: CURRENT_PROJECT_UPDATE, payload});
+                setEditFetchStates({
+                    start: false,
+                    success: true,
+                    fail: false,
+                });
+
+                history.push(`/projects/${name.toLowerCase().replace(' ', '-').trim()}`);
+            } catch (error) {
+                console.log(error.message);
+                setEditFetchStates({
+                    start: false,
+                    success: false,
+                    fail: true,
+                });
+            }
+        };
+
+        editProject();
+    }, [editStart]);
 
     return (
         <div className={classes.actions}>
@@ -69,7 +107,7 @@ const ActionsColumn: React.FC<Props> = ({id}) => {
                 <IconDelete />
             </IconButton>
 
-            <IconButton className={classes.editButton} onClick={() => editProject(id)}>
+            <IconButton className={classes.editButton} onClick={handleEditProject}>
                 <IconEdit />
             </IconButton>
         </div>

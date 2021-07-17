@@ -30,7 +30,7 @@ const Body: React.FC<Props> = ({rows, page, rowsPerPage, filter}) => {
                         <TableCell align="center">{e.updatedAt}</TableCell>
                         <TableCell align="center">{e.createdAt}</TableCell>
                         <TableCell align="center">
-                            <Actions id={e.id} />
+                            <Actions id={e.id} name={e.name} />
                         </TableCell>
                     </TableRow>
                 ))}

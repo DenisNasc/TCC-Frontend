@@ -58,11 +58,11 @@ const CardItem: React.FC<PropsCardItem> = ({
             </CardContent>
 
             <CardActions className={classes.actions}>
-                <Button size="small" color="primary" onClick={redirectCallback}>
-                    Editar
-                </Button>
                 <Button size="small" color="primary">
                     Ajuda
+                </Button>
+                <Button size="small" color="primary" onClick={redirectCallback}>
+                    Editar
                 </Button>
                 {!important && (
                     <Button size="small" color="primary">
