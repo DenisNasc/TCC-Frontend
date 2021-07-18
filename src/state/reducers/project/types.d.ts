@@ -1,5 +1,12 @@
 import type {Reducer} from 'redux';
 
+export type TypeStation = {
+    name: string;
+    longitudinal: number;
+    order: number;
+    coordinates: {order: number; transversal: number; vertical: number; type?: string}[];
+};
+
 export type TypeCurrentProjectState = {
     id: string;
     userID: string;
@@ -13,7 +20,7 @@ export type TypeCurrentProjectState = {
     breadth: number;
     draft: number;
 
-    stations: string[];
+    stations: TypeStation[];
 
     createdAt: string;
     updatedAt: string;
@@ -32,7 +39,7 @@ export type TypeCurrentProjectPayload = {
     breadth?: number;
     draft?: number;
 
-    stations?: string[];
+    stations?: TypeStation[];
 
     createdAt?: string;
     updatedAt?: string;

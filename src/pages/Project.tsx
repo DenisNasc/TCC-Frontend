@@ -11,6 +11,13 @@ import CardItem from 'components/project/CardItem';
 
 const cardsList = [
     {
+        title: 'Tabela de Cotas',
+        description:
+            'A descriminação matemática da embarcação, a partir da interseção das linhas de referência: linha de base, linha de centro, perpendicular de ré',
+        important: true,
+        pathRedirect: 'tabela-cotas',
+    },
+    {
         title: 'Arranjo Geral',
         description:
             'O desenho detalhado de todos os componentes da embarcação, conforme as determinações da NORMAM/DPC',
@@ -24,13 +31,7 @@ const cardsList = [
         important: true,
         pathRedirect: 'plano-linhas',
     },
-    {
-        title: 'Tabela de Cotas',
-        description:
-            'A descriminação matemática da embarcação, a partir da interseção das linhas de referência: linha de base, linha de centro, perpendicular de ré',
-        important: true,
-        pathRedirect: 'tabela-cotas',
-    },
+
     {
         title: 'Plano de Pintura',
         description:
@@ -53,13 +54,7 @@ const Project: React.FC = () => {
     const classes = useStyles();
 
     const [projectState, setProjectState] = useState({...currentProject});
-    const {id: projectID} = projectState;
-
-    useEffect(() => {
-        if (projectID) {
-            console.log('ENVIAR AO DB E RECEBER AS INFOS');
-        }
-    }, [projectID]);
+    const {name} = projectState;
 
     return (
         <DefaultTemplate title="projects">
@@ -71,7 +66,7 @@ const Project: React.FC = () => {
                             description={e.description}
                             important={e.important}
                             pathRedirect={e.pathRedirect}
-                            projectID={projectID}
+                            projectID={name}
                         />
                     ))
                 ) : (
@@ -83,7 +78,7 @@ const Project: React.FC = () => {
                     description="Para acrescentar outros arquivos ao seu projeto, crie-os aqui"
                     important
                     pathRedirect="outros"
-                    projectID={projectID}
+                    projectID={name}
                 />
             </Box>
         </DefaultTemplate>
