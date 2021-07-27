@@ -7,7 +7,7 @@ import {IconButton} from '@material-ui/core';
 import {Delete as IconDelete, Edit as IconEdit} from '@material-ui/icons';
 
 import useReduxStore from 'hooks/useReduxStore';
-import {axiosDevInstance} from 'axiosInstances';
+import {axiosDevInstance} from 'fetch/axiosInstances';
 import {USER_UPDATE_PROJECTS} from 'state/actions/user';
 import {CURRENT_PROJECT_UPDATE} from 'state/actions/projects';
 
@@ -19,7 +19,7 @@ interface Props {
 const ActionsColumn: React.FC<Props> = ({id, name}) => {
     const dispatch = useDispatch();
     const {
-        user: {id: userID, token},
+        user: {id: userID},
     } = useReduxStore();
 
     const [deleteFetchStates, setDeleteFetchStates] = useState({
@@ -40,7 +40,7 @@ const ActionsColumn: React.FC<Props> = ({id, name}) => {
     const {start: deleteStart} = deleteFetchStates;
     const {start: editStart} = editFetchStates;
 
-    const axiosDev = axiosDevInstance(token);
+    const axiosDev = axiosDevInstance();
 
     const handleDeleteProject = useCallback(() => {
         setDeleteFetchStates({start: true, success: false, fail: false});
@@ -55,9 +55,7 @@ const ActionsColumn: React.FC<Props> = ({id, name}) => {
         const deleteProject = async () => {
             try {
                 await axiosDev.delete(`/users/${userID}/projects/${id}`);
-                const {data: projects} = await axiosDevInstance(token).get(
-                    `/users/${userID}/projects`
-                );
+                const {data: projects} = await axiosDevInstance().get(`/users/${userID}/projects`);
 
                 const payload = {projects};
 

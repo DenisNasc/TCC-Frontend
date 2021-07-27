@@ -1,23 +1,18 @@
-import React from 'react';
-import {useDispatch} from 'react-redux';
-import {useHistory, useParams} from 'react-router-dom';
+import React, {useState, useCallback} from 'react';
 
-import useLocalStorage from 'hooks/useLocalStorage';
+import {useHistory, useParams} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Avatar, Button, Divider, IconButton, Paper, Typography} from '@material-ui/core';
 import {Brightness7 as IconBrightness7, Brightness4 as IconBrightness4} from '@material-ui/icons';
 
 import useReduxStore from 'hooks/useReduxStore';
-
-import {APP_CHANGE_THEME} from 'state/actions/app';
-import {USER_LOGOUT} from 'state/actions/user';
+import useLogout from 'hooks/header/useLogout';
 
 const Header: React.FC = () => {
-    const classes = useStyles();
-    const dispatch = useDispatch();
+    const [logoutFetchStates, setLogoutFetchStates] = useState({start: false, success: false, fail: false});
 
-    const [userJWT, setUserJWT] = useLocalStorage('user_token', false);
+    const classes = useStyles();
 
     const history = useHistory();
     const params = useParams<{userId: string}>();
@@ -27,31 +22,31 @@ const Header: React.FC = () => {
         app: {darkMode},
     } = useReduxStore();
 
+    useLogout(logoutFetchStates, setLogoutFetchStates);
+
     const handleTheme = () => {
-        dispatch({type: APP_CHANGE_THEME, payload: {}});
+        // dispatch({type: APP_CHANGE_THEME, payload: {}});
     };
 
     const handleAvatarClick = () => {
         history.push(`/${params.userId}/profile`);
     };
 
-    const handleLogoutClick = () => {
-        setUserJWT(null);
-        dispatch({type: USER_LOGOUT, payload: {}});
-    };
+    const handleLogout = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.preventDefault();
+        setLogoutFetchStates({start: true, success: false, fail: false});
+    }, []);
 
     return (
         <Paper className={classes.paper}>
             <Typography>千鶴 PROJECT</Typography>
             <nav className={classes.nav}>
-                <IconButton onClick={handleTheme}>
-                    {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}
-                </IconButton>
+                <IconButton onClick={handleTheme}>{darkMode ? <IconBrightness4 /> : <IconBrightness7 />}</IconButton>
                 {id && (
                     <>
                         <Divider orientation="vertical" flexItem className={classes.divider} />
                         <Avatar className={classes.avatar} onClick={handleAvatarClick} />
-                        <Button className={classes.logoutButton} onClick={handleLogoutClick}>
+                        <Button className={classes.logoutButton} onClick={handleLogout}>
                             LOGOUT
                         </Button>
                     </>

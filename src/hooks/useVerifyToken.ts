@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-import {axiosDevInstance} from 'axiosInstances';
+import {axiosDevInstance} from 'fetch/axiosInstances';
 
 const useVerifyUserJWT = (userJWT: string) => {
     const [answerFromServer, setAnswerFromServer] = useState(null);

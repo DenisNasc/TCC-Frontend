@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Collapse, List, ListSubheader, ListItem, ListItemText, Paper, Box} from '@material-ui/core';
-import {ExpandMore as IconExpandMore, ExpandLess as IconExpandLess} from '@material-ui/icons';
+import {List, ListSubheader, Paper, Box, Typography} from '@material-ui/core';
 
 import {Palette} from '@devexpress/dx-react-chart';
 import {schemeAccent} from 'd3-scale-chromatic';
@@ -14,13 +13,14 @@ import {
     Legend,
 } from '@devexpress/dx-react-chart-material-ui';
 
+import ListItemStation from 'components/tabelaCotas/ListItemStation';
 import ChartStation from 'components/tabelaCotas/ChartStation';
 
 import useReduxStore from 'hooks/useReduxStore';
 
 import DefaultTemplate from 'styles/templates';
 
-import type {TypeStation} from 'state/reducers/project/types';
+import type {TypeStation} from 'state/reducers/currentProject/types';
 
 const TabelaCotas: React.FC = () => {
     const {
@@ -35,16 +35,15 @@ const TabelaCotas: React.FC = () => {
         }[]
     >([]);
     const [stationsData, setStationsData] = useState<TypeStation[]>([]);
-    const [isOpen, setOpen] = useState(false);
 
     const classes = useStyles();
 
     useEffect(() => {
         if (!stations) return;
         const index = stations.map(e => ({
-            name: e.name,
-            value: `vertical_${e.name}`,
-            argument: `transversal_${e.name}`,
+            name: e.name.replace(/ /g, '_'),
+            value: `vertical_${e.name.replace(/ /g, '_')}`,
+            argument: `transversal_${e.name.replace(/ /g, '_')}`,
         }));
 
         setStationsIndex(index);
@@ -53,71 +52,33 @@ const TabelaCotas: React.FC = () => {
             .map(station =>
                 station.coordinates.map(coordinate => {
                     const olalala: any = {};
-                    olalala[`vertical_${station.name}`] = coordinate.vertical;
-                    olalala[`transversal_${station.name}`] = coordinate.transversal;
+                    olalala[`vertical_${station.name.replace(/ /g, '_')}`] = coordinate.vertical;
+                    olalala[`transversal_${station.name.replace(/ /g, '_')}`] =
+                        coordinate.transversal;
 
                     return olalala;
                 })
             )
-            .reduce((previous, value) => [...previous, ...value]);
+            .reduce((previous, value) => [...value]);
+
+        console.log(stationsDataFormated);
 
         setStationsData(stationsDataFormated);
     }, [stations]);
 
-    const handleOpenCollapse = () => setOpen(!isOpen);
-
     return (
         <DefaultTemplate title="tabela de cotas">
-            <Box className={classes.box}>
-                <List
-                    component="nav"
-                    aria-labelledby="nested-list-subheader"
-                    subheader={
-                        <ListSubheader component="div" id="nested-list-subheader">
-                            Nested List Items
-                        </ListSubheader>
-                    }
-                    className={classes.list}
-                >
-                    {stations.map(station => (
-                        <>
-                            <ListItem button onClick={handleOpenCollapse}>
-                                <ListItemText primary={station.name} />
-                                <ListItemText primary={`Longitudinal: ${station.longitudinal}`} />
-                                {isOpen ? <IconExpandLess /> : <IconExpandMore />}
-                            </ListItem>
-                            <Collapse
-                                in={isOpen}
-                                timeout="auto"
-                                unmountOnExit
-                                className={classes.collapse}
-                            >
-                                <List component="div" disablePadding>
-                                    {station.coordinates.map(point => (
-                                        <ListItem button>
-                                            <ListItemText
-                                                primary={`Ponto ${point.order}`}
-                                                className={classes.listItemText}
-                                            />
-                                            <ListItemText
-                                                primary={`Longitudinal: ${station.longitudinal}`}
-                                                className={classes.listItemText}
-                                            />
-                                            <ListItemText
-                                                primary={`Transversal: ${point.transversal}`}
-                                                className={classes.listItemText}
-                                            />
-                                            <ListItemText
-                                                primary={`Vertical: ${point.vertical}`}
-                                                className={classes.listItemText}
-                                            />
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </Collapse>
-                        </>
-                    ))}
-                </List>
+            <Box className={classes.boxContainer}>
+                <Paper elevation={0} square className={classes.paperStationsList}>
+                    <Typography variant="h3" className={classes.typographyStationsList}>
+                        Balizas
+                    </Typography>
+                    <List component="nav" className={classes.list}>
+                        {stations.map(station => (
+                            <ListItemStation station={station} />
+                        ))}
+                    </List>
+                </Paper>
 
                 <Paper square className={classes.paper}>
                     <Chart data={stationsData}>
@@ -127,9 +88,9 @@ const TabelaCotas: React.FC = () => {
                         <ArgumentAxis />
                         <ValueAxis showTicks showLine showGrid={false} />
 
-                        {stationsIndex.map(e => (
+                        {/* {stationsIndex.map(e => (
                             <ChartStation argument={e.value} name={e.name} value={e.argument} />
-                        ))}
+                        ))} */}
                     </Chart>
                 </Paper>
             </Box>
@@ -141,16 +102,15 @@ export default TabelaCotas;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        box: {display: 'flex'},
-        list: {width: '40%', maxHeight: '500px', overflowY: 'scroll'},
+        boxContainer: {display: 'flex'},
+        paperStationsList: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '40%',
+            marginRight: theme.spacing(3),
+        },
+        typographyStationsList: {},
+        list: {maxHeight: '500px', overflowY: 'scroll'},
         paper: {width: '60%'},
-        collapse: {
-            maxHeight: '400px',
-            overflowY: 'scroll',
-            paddingLeft: theme.spacing(3),
-        },
-        listItemText: {
-            color: 'blue',
-        },
     })
 );

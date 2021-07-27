@@ -20,9 +20,8 @@ export type TypeUserState = {
     id: string;
     email: string;
     name: string;
-    token: string;
+
     projects: TypeProject[];
-    errorMessage: string;
 };
 
 export type TypeUserPayload = any;

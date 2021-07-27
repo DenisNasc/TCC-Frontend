@@ -1,11 +1,4 @@
-import {
-    USER_CREATE_PROJECT,
-    USER_UPDATE_PROJECTS,
-    USER_DELETE_PROJECT,
-    USER_LOGIN,
-    USER_LOGOUT,
-    USER_SET_JWT,
-} from 'state/actions/user';
+import {USER_CREATE_PROJECT, USER_UPDATE_PROJECTS, USER_DELETE_PROJECT, USER_LOGIN, USER_LOGOUT, USER_SET_JWT} from 'state/actions/user';
 
 import type {TypeProject, TypeUserState, TypeUserReducer} from './types';
 
@@ -13,9 +6,7 @@ const initialState: TypeUserState = {
     id: '',
     email: '',
     name: '',
-    token: '',
     projects: [],
-    errorMessage: '',
 };
 
 const UserContextReducer: TypeUserReducer = (state = initialState, action) => {
@@ -34,14 +25,7 @@ const UserContextReducer: TypeUserReducer = (state = initialState, action) => {
         }
 
         case USER_LOGOUT: {
-            return {
-                id: '',
-                email: '',
-                name: '',
-                token: '',
-                projects: [],
-                errorMessage: '',
-            };
+            return {...initialState};
         }
 
         case USER_LOGIN: {

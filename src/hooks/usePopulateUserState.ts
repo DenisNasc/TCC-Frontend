@@ -1,35 +1,23 @@
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
-import jwt from 'jsonwebtoken';
+import {axiosDevInstance} from 'fetch/axiosInstances';
 
-import {axiosDevInstance} from 'axiosInstances';
+import useReduxStore from 'hooks/useReduxStore';
+
+import type {TypeFetchStates} from 'types/hooks';
+
 import {USER_LOGIN} from 'state/actions/user';
 
-const SECRET_KEY = 'SUPER-SECRETO';
-
-const usePopulateUserState = (userJWT: string): void => {
+const usePopulateUserState = (states: TypeFetchStates): void => {
     const dispatch = useDispatch();
-    const axiosDev = axiosDevInstance(userJWT);
+    const axiosDev = axiosDevInstance();
 
-    useEffect(() => {
-        jwt.verify(userJWT, SECRET_KEY, async (error: any, decoded: any) => {
-            if (error) {
-                console.log(error);
-                return;
-            }
-            const {identity} = decoded;
+    const {success} = states;
 
-            const {data} = await axiosDev.get(`/users/${identity}`);
-
-            const {data: projects} = await axiosDev.get(`/users/${identity}/projects`);
-
-            const {name, email, id} = data;
-
-            const payload = {name, email, id, token: userJWT, projects};
-            dispatch({type: USER_LOGIN, payload});
-        });
-    }, [userJWT]);
+    const {
+        user: {id: userID},
+    } = useReduxStore();
 };
 
 export default usePopulateUserState;

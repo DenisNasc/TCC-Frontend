@@ -1,10 +1,23 @@
 import type {Reducer} from 'redux';
 
+export type TypeStationCoordinate = {
+    id: string;
+    order?: number;
+    transversal: number;
+    vertical: number;
+    type?: string;
+    createdAt: string;
+    updatedAt: string | null;
+};
+
 export type TypeStation = {
+    id: string;
     name: string;
     longitudinal: number;
     order: number;
-    coordinates: {order: number; transversal: number; vertical: number; type?: string}[];
+    coordinates: TypeStationCoordinate[];
+    createdAt: string;
+    updatedAt: string | null;
 };
 
 export type TypeCurrentProjectState = {

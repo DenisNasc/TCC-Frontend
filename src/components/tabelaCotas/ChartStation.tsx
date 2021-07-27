@@ -9,7 +9,6 @@ interface Props {
 }
 
 const ChartStation: React.FC<Props> = ({value, argument, name}) => {
-    console.log(value, argument);
     return <LineSeries valueField={value} name={name} argumentField={argument} />;
 };
 

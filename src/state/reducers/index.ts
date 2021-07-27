@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
 import app from './app';
-import currentProject from './project';
+import currentProject from './currentProject';
 import user from './user';
 
 const reducers = {app, user, currentProject};

@@ -1,20 +1,19 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
+import React, {useCallback, useState} from 'react';
+import {Redirect} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Divider, Paper, Typography} from '@material-ui/core';
 
-import {axiosDevInstance} from 'axiosInstances';
-
 import FormInput from 'components/shared/FormInput';
 import DisplayMessage, {PropsDisplayMessage} from 'components/shared/DisplayMessage';
 
-import useLocalStorage from 'hooks/useLocalStorage';
+import useReduxStore from 'hooks/useReduxStore';
+import useFormSignUp from 'hooks/formSignUp/useFormSignUp';
 
 const FormSignup: React.FC = () => {
-    const classes = useStyles();
-    const history = useHistory();
-    const [_, setLocalStorageUserJWT] = useLocalStorage('user_token', false);
+    const {
+        user: {id},
+    } = useReduxStore();
 
     const [fetchStates, setFetchStates] = useState({start: false, success: false, fail: false});
     const [formValues, setFormValues] = useState({
@@ -28,106 +27,31 @@ const FormSignup: React.FC = () => {
         type: 'error',
     });
 
-    const {start} = fetchStates;
-    const {password, confirmPassword, name, email} = formValues;
+    const classes = useStyles();
 
-    const axiosDev = axiosDevInstance('');
-
-    useEffect(() => {
-        if (!start) return;
-        if (password !== confirmPassword) {
-            setServerMessage({
-                type: 'warning',
-                message: 'A confirmação de senha falhou',
-            });
-            setFetchStates({start: false, success: false, fail: false});
-            return;
-        }
-
-        const createNewUser = async () => {
-            try {
-                await axiosDev.post('/users', {
-                    name,
-                    email,
-                    password,
-                });
-
-                setServerMessage({
-                    type: 'success',
-                    message: 'Usuário criado com sucesso',
-                });
-
-                const {data} = await axiosDev.post('/auth', {
-                    email,
-                    password,
-                });
-
-                const {access_token: accessToken} = data;
-                setLocalStorageUserJWT(accessToken);
-
-                setFetchStates({start: false, success: true, fail: false});
-                setFormValues({name: '', email: '', password: '', confirmPassword: ''});
-                history.push('/home');
-            } catch (error) {
-                setFetchStates({start: false, success: false, fail: true});
-                setServerMessage({
-                    type: 'error',
-                    message: 'Não foi possível cadastrar o usuário',
-                });
-            }
-        };
-
-        createNewUser();
-    }, [start]);
-
-    const handleSubmit = (event: React.FormEvent<HTMLDivElement>) => {
+    const handleSubmit = useCallback((event: React.FormEvent<HTMLDivElement>) => {
         event.preventDefault();
         setFetchStates({start: true, success: false, fail: false});
-    };
+    }, []);
+
+    useFormSignUp(fetchStates, setFetchStates, setServerMessage, formValues, setFormValues);
 
     return (
-        <Paper className={classes.form} component="form" elevation={0} onSubmit={handleSubmit}>
-            <Typography className={classes.typography}>Sign Up</Typography>
-            <Divider className={classes.divider} />
-            <FormInput
-                id="name"
-                label="Name"
-                type="text"
-                required
-                values={formValues}
-                setValue={setFormValues}
-            />
-            <FormInput
-                id="email"
-                label="Email"
-                type="email"
-                required
-                values={formValues}
-                setValue={setFormValues}
-            />
-            <FormInput
-                id="password"
-                label="Password"
-                type="password"
-                required
-                values={formValues}
-                setValue={setFormValues}
-            />
-            <FormInput
-                id="confirmPassword"
-                label="Confirm Password"
-                type="password"
-                required
-                values={formValues}
-                setValue={setFormValues}
-            />
-            {serverMessage.message && (
-                <DisplayMessage message={serverMessage.message} type={serverMessage.type} />
-            )}
-            <Button disabled={start} type="submit">
-                Submit
-            </Button>
-        </Paper>
+        <>
+            {id && <Redirect to="/home" />}
+            <Paper className={classes.form} component="form" elevation={0} onSubmit={handleSubmit}>
+                <Typography className={classes.typography}>Sign Up</Typography>
+                <Divider className={classes.divider} />
+                <FormInput id="name" label="Name" type="text" required values={formValues} setValue={setFormValues} />
+                <FormInput id="email" label="Email" type="email" required values={formValues} setValue={setFormValues} />
+                <FormInput id="password" label="Password" type="password" required values={formValues} setValue={setFormValues} />
+                <FormInput id="confirmPassword" label="Confirm Password" type="password" required values={formValues} setValue={setFormValues} />
+                {serverMessage.message && <DisplayMessage message={serverMessage.message} type={serverMessage.type} />}
+                <Button disabled={fetchStates.start} type="submit">
+                    Submit
+                </Button>
+            </Paper>
+        </>
     );
 };
 

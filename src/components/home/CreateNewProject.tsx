@@ -7,7 +7,7 @@ import {Add as IconAdd} from '@material-ui/icons';
 
 import useReduxStore from 'hooks/useReduxStore';
 
-import {axiosDevInstance} from 'axiosInstances';
+import {axiosDevInstance} from 'fetch/axiosInstances';
 import {USER_UPDATE_PROJECTS} from 'state/actions/user';
 
 const CreateNewProject: React.FC = () => {
@@ -17,10 +17,10 @@ const CreateNewProject: React.FC = () => {
     const [fetchStates, setFetchStates] = useState({start: false, success: false, fail: false});
 
     const {
-        user: {token, id},
+        user: {id},
     } = useReduxStore();
 
-    const axiosDev = axiosDevInstance(token);
+    const axiosDev = axiosDevInstance();
     const classes = useStyles({height: 300, width: 300});
 
     const {start} = fetchStates;
@@ -48,12 +48,9 @@ const CreateNewProject: React.FC = () => {
         createNewProject();
     }, [start]);
 
-    const handleProjectNameChange = useCallback(
-        (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-            setProjectName(e.target.value);
-        },
-        []
-    );
+    const handleProjectNameChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setProjectName(e.target.value);
+    }, []);
 
     const handleCreateNewProject = useCallback(() => {
         setFetchStates({start: true, success: false, fail: false});
@@ -70,14 +67,7 @@ const CreateNewProject: React.FC = () => {
 
     return (
         <>
-            <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<IconAdd />}
-                onClick={openModal}
-                className={classes.button}
-                disabled={isOpen}
-            >
+            <Button variant="contained" color="secondary" startIcon={<IconAdd />} onClick={openModal} className={classes.button} disabled={isOpen}>
                 Novo Projeto
             </Button>
             <Modal open={isOpen} onClose={closeModal}>
