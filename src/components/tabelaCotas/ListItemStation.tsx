@@ -24,10 +24,11 @@ const ListItemStation: React.FC<Props> = ({station: {name, longitudinal, coordin
                 <ListItemText primary={`Longitudinal: ${longitudinal}`} />
                 {isOpen ? <IconExpandLess /> : <IconExpandMore />}
             </ListItem>
+
             <Collapse in={isOpen} timeout="auto" unmountOnExit className={classes.collapse}>
                 <List component="div" disablePadding>
                     {coordinates.map(point => (
-                        <ListItem button>
+                        <ListItem key={point.id} button>
                             <ListItemText
                                 primary={`Ponto ${point.order}`}
                                 className={classes.listItemText}

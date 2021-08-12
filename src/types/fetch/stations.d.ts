@@ -1,6 +1,6 @@
-import type ResponseDefault from 'types/fetch';
+import type ResponseDefault from '.';
 
-export type ResponseTypeStation = {
+export type TypeStation = {
     id: string;
     name: string;
     longitudinal: string;
@@ -8,8 +8,6 @@ export type ResponseTypeStation = {
     updatedAt: string;
 };
 
-export interface ResponseStations extends ResponseDefault {
-    stations: ResponseTypeStation[];
-    projectID: string;
-    userID: string;
+export interface ResponseGetStations extends ResponseDefault {
+    stations: TypeStation[];
 }

@@ -23,10 +23,10 @@ const Routes: React.FC = () => {
                 <Route path="/home" exact>
                     <Home />
                 </Route>
-                <Route path="/projects/:id" exact>
+                <Route path="/:projectID" exact>
                     <Project />
                 </Route>
-                <Route path="/projects/:id/tabela-cotas" exact>
+                <Route path="/:projectID/tabela-cotas" exact>
                     <TabelaCotas />
                 </Route>
             </Switch>

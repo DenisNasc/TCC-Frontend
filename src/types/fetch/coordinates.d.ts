@@ -1,6 +1,6 @@
-import type ResponseDefault from 'types/fetch';
+import type ResponseDefault from '.';
 
-export type ResponseTypeCoordinate = {
+export type TypeCoordinate = {
     id: string;
     type: string;
     vertical: float;
@@ -9,9 +9,6 @@ export type ResponseTypeCoordinate = {
     updateddAt: string;
 };
 
-export interface ResponseCoordinates extends ResponseDefault {
+export interface ResponseGetCoordinates extends ResponseDefault {
     coordinates: ResponseTypeCoordinate[];
-    userID: string;
-    projectID: string;
-    stationID: string;
 }

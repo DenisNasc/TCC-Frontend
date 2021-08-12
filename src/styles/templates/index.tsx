@@ -16,9 +16,7 @@ interface PropsDefaultTemplate {
 type TypePathname = {href: string; title: string};
 
 const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
-    const [pathnameList, setPathnameList] = useState<TypePathname[]>([
-        {href: '/home', title: 'Home'},
-    ]);
+    const [pathnameList, setPathnameList] = useState<TypePathname[]>([{href: '/home', title: 'Home'}]);
 
     const location = useLocation();
     const history = useHistory();
@@ -30,16 +28,15 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
             setPathnameList([{href: '/home', title: 'Home'}]);
             return;
         }
+
         const pathnameArray = location.pathname.split('/');
         pathnameArray.shift();
 
         const formatedPathnameArray = pathnameArray.map((e, i, arr) => {
-            const href = `/${arr
-                .slice(0, i + 1)
-                .reduce((initial, value) => `${initial}/${value}`)}`;
+            const href = `/${arr.slice(0, i + 1).reduce((initial, value) => `${initial}/${value}`)}`.replace(/ /g, '-').toLocaleLowerCase().trim();
 
             return {
-                title: e.charAt(0).toUpperCase() + e.slice(1),
+                title: `${e.charAt(0).toUpperCase() + e.slice(1)}`.replace(/-/g, ' ').trim(),
                 href,
             };
         });
@@ -58,42 +55,18 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
             <Helmet title={title} />
             <Header />
 
-            <Grid
-                container
-                direction="row"
-                justify="center"
-                alignItems="center"
-                className={classes.gridContainer}
-            >
-                <Grid
-                    container
-                    item
-                    xs={2}
-                    justify="flex-start"
-                    alignItems="center"
-                    className={classes.grid1}
-                >
+            <Grid container direction="row" justify="center" alignItems="center" className={classes.gridContainer}>
+                <Grid container item xs={2} justify="flex-start" alignItems="center" className={classes.grid1}>
                     <LateralMenu />
                 </Grid>
-                <Grid
-                    container
-                    item
-                    xs={10}
-                    justify="flex-start"
-                    alignItems="center"
-                    className={classes.grid2}
-                >
+                <Grid container item xs={10} justify="flex-start" alignItems="center" className={classes.grid2}>
                     <Box className={classes.box}>
                         <Breadcrumbs className={classes.breadcrumbs}>
                             {pathnameList.map(e => {
                                 const disabled = e.href === location.pathname;
 
                                 return (
-                                    <Button
-                                        component="button"
-                                        disabled={disabled}
-                                        onClick={handleLink(e.href)}
-                                    >
+                                    <Button key={e.href} component="button" disabled={disabled} onClick={handleLink(e.href)}>
                                         {e.title}
                                     </Button>
                                 );

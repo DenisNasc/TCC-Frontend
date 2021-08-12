@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
         tableContainer: {
             maxHeight: '600px',
             overflowY: 'auto',
+            color: '#fff',
         },
         tableBody: {},
     })

@@ -6,6 +6,9 @@ import {axiosDevInstance} from 'fetch/axiosInstances';
 import type ResponseLogin from 'types/fetch/login';
 import type {TypeFetchStates, TypeHandleState, TypeHandleMessage} from 'types/hooks';
 
+import type {ResponseGetProjects} from 'types/fetch/projects';
+import type {ResponseGetUsers} from 'types/fetch/users';
+
 import {USER_LOGIN} from 'state/actions/user';
 
 export interface HookParams {
@@ -56,10 +59,14 @@ const useFormLogin = (states: TypeFetchStates, handleState: TypeHandleState, han
 
         const populateUserState = async () => {
             try {
-                const {data: user} = await axiosDev.get(`/users/${userID}`);
-                const {data: projects} = await axiosDev.get(`/users/${userID}/projects`);
+                const {
+                    data: {users},
+                } = await axiosDev.get<ResponseGetUsers>(`/users/${userID}`);
+                const {
+                    data: {projects},
+                } = await axiosDev.get<ResponseGetProjects>(`/users/${userID}/projects`);
 
-                const {name, email, id} = user;
+                const {name, email, id} = users[0];
 
                 const payload = {name, email, id, projects};
                 dispatch({type: USER_LOGIN, payload});

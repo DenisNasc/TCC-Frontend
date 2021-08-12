@@ -1,97 +1,152 @@
-import React, {useState, useEffect} from 'react';
+import React, {useCallback, useState} from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {List, ListSubheader, Paper, Box, Typography} from '@material-ui/core';
-
-import {Palette} from '@devexpress/dx-react-chart';
-import {schemeAccent} from 'd3-scale-chromatic';
-import {
-    ArgumentAxis,
-    ValueAxis,
-    Chart,
-    Title,
-    Legend,
-} from '@devexpress/dx-react-chart-material-ui';
-
-import ListItemStation from 'components/tabelaCotas/ListItemStation';
-import ChartStation from 'components/tabelaCotas/ChartStation';
-
-import useReduxStore from 'hooks/useReduxStore';
+import {Button, Modal, List, Paper, Box, Fab, Typography, Tooltip} from '@material-ui/core';
+import {Add as IconAdd} from '@material-ui/icons';
 
 import DefaultTemplate from 'styles/templates';
 
+import ListItemStation from 'components/tabelaCotas/ListItemStation';
+import FormInput from 'components/shared/FormInput';
+
+import useReduxStore from 'hooks/useReduxStore';
+import useCreateStation from 'components/tabelaCotas/hooks/useCreateStation';
+
 import type {TypeStation} from 'state/reducers/currentProject/types';
+import type {TypeFetchStates} from 'types/hooks';
+
+export type TypeStationsIndex = {
+    name: string;
+    value: string;
+    argument: string;
+}[];
+
+export type TypeStationsData = TypeStation[];
 
 const TabelaCotas: React.FC = () => {
     const {
-        currentProject: {stations},
+        currentProject: {stations, id: projectID},
+        user: {id: userID},
     } = useReduxStore();
 
-    const [stationsIndex, setStationsIndex] = useState<
-        {
-            name: string;
-            value: string;
-            argument: string;
-        }[]
-    >([]);
-    const [stationsData, setStationsData] = useState<TypeStation[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [newStation, setNewStation] = useState({
+        name: '',
+        longitudinal: 0,
+    });
+    const [addStationStates, setAddStationStates] = useState<TypeFetchStates>({
+        start: false,
+        success: false,
+        fail: false,
+    });
 
-    const classes = useStyles();
+    const {start} = addStationStates;
 
-    useEffect(() => {
-        if (!stations) return;
-        const index = stations.map(e => ({
-            name: e.name.replace(/ /g, '_'),
-            value: `vertical_${e.name.replace(/ /g, '_')}`,
-            argument: `transversal_${e.name.replace(/ /g, '_')}`,
-        }));
+    const classes = useStyles({height: 300, width: 500});
 
-        setStationsIndex(index);
+    const handleCreateStation = useCallback((event: React.FormEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        setAddStationStates({
+            start: true,
+            success: false,
+            fail: false,
+        });
+        setIsOpen(false);
+    }, []);
 
-        const stationsDataFormated = stations
-            .map(station =>
-                station.coordinates.map(coordinate => {
-                    const olalala: any = {};
-                    olalala[`vertical_${station.name.replace(/ /g, '_')}`] = coordinate.vertical;
-                    olalala[`transversal_${station.name.replace(/ /g, '_')}`] =
-                        coordinate.transversal;
+    const openModal = useCallback(() => setIsOpen(true), []);
+    const closeModal = useCallback(() => {
+        setNewStation({
+            name: '',
+            longitudinal: 0,
+        });
+        setIsOpen(false);
+    }, []);
 
-                    return olalala;
-                })
-            )
-            .reduce((previous, value) => [...value]);
-
-        console.log(stationsDataFormated);
-
-        setStationsData(stationsDataFormated);
-    }, [stations]);
+    useCreateStation(
+        {userID, projectID, params: newStation},
+        addStationStates,
+        setAddStationStates,
+        setNewStation
+    );
 
     return (
         <DefaultTemplate title="tabela de cotas">
             <Box className={classes.boxContainer}>
-                <Paper elevation={0} square className={classes.paperStationsList}>
-                    <Typography variant="h3" className={classes.typographyStationsList}>
-                        Balizas
-                    </Typography>
+                <Box className={classes.boxStationsList}>
+                    <Box className={classes.boxHeader}>
+                        <Typography className={classes.typographyStationsList}>BALIZAS</Typography>
+                        <Tooltip title="Criar uma nova baliza">
+                            <Fab
+                                color="primary"
+                                disabled={addStationStates.start}
+                                onClick={openModal}
+                            >
+                                <IconAdd />
+                            </Fab>
+                        </Tooltip>
+                    </Box>
+
+                    <Modal open={isOpen} onClose={closeModal}>
+                        <Paper
+                            square
+                            component="form"
+                            onSubmit={handleCreateStation}
+                            className={classes.modal}
+                        >
+                            <Typography className={classes.title}>Criar Nova Baliza</Typography>
+
+                            <FormInput
+                                id="name"
+                                label="Nome"
+                                required
+                                type=""
+                                values={newStation}
+                                setValue={setNewStation}
+                            />
+
+                            <FormInput
+                                id="longitudinal"
+                                label="Longitudinal"
+                                type="number"
+                                values={newStation}
+                                setValue={setNewStation}
+                                required
+                            />
+
+                            <Box className={classes.buttonsBox}>
+                                <Button
+                                    disabled={start}
+                                    type="submit"
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    Criar
+                                </Button>
+
+                                <Button
+                                    disabled={start}
+                                    onClick={closeModal}
+                                    variant="contained"
+                                    color="secondary"
+                                >
+                                    Cancelar
+                                </Button>
+                            </Box>
+                        </Paper>
+                    </Modal>
+
                     <List component="nav" className={classes.list}>
-                        {stations.map(station => (
-                            <ListItemStation station={station} />
-                        ))}
+                        {stations
+                            .sort((a, b) => a.longitudinal - b.longitudinal)
+                            .map(station => (
+                                <ListItemStation key={station.id} station={station} />
+                            ))}
                     </List>
-                </Paper>
+                </Box>
 
                 <Paper square className={classes.paper}>
-                    <Chart data={stationsData}>
-                        <Palette scheme={schemeAccent} />
-                        <Title text="Balizas" />
-                        <Legend />
-                        <ArgumentAxis />
-                        <ValueAxis showTicks showLine showGrid={false} />
-
-                        {/* {stationsIndex.map(e => (
-                            <ChartStation argument={e.value} name={e.name} value={e.argument} />
-                        ))} */}
-                    </Chart>
+                    GRAFICO
                 </Paper>
             </Box>
         </DefaultTemplate>
@@ -101,16 +156,39 @@ const TabelaCotas: React.FC = () => {
 export default TabelaCotas;
 
 const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        boxContainer: {display: 'flex'},
-        paperStationsList: {
+    createStyles<string, {height: number; width: number}>({
+        boxContainer: {display: 'flex', height: '100%'},
+        boxHeader: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: theme.spacing(2),
+        },
+        modal: {
+            position: 'absolute',
+            height: ({height}) => `${height}px`,
+            width: ({width}) => `${width}px`,
+            top: ({height}) => `calc(50vh - ${height / 2}px)`,
+            left: ({width}) => `calc(50vw - ${width / 2}px)`,
+            padding: theme.spacing(3),
+        },
+        title: {
+            marginBottom: theme.spacing(2),
+        },
+        boxStationsList: {
             display: 'flex',
             flexDirection: 'column',
             width: '40%',
             marginRight: theme.spacing(3),
+            background: 'none',
         },
-        typographyStationsList: {},
-        list: {maxHeight: '500px', overflowY: 'scroll'},
+        typographyStationsList: {fontSize: '16pt'},
+        list: {
+            maxHeight: '700px',
+            overflowY: 'scroll',
+            backgroundColor: theme.palette.background.paper,
+        },
         paper: {width: '60%'},
+        buttonsBox: {display: 'flex', justifyContent: 'space-between'},
     })
 );

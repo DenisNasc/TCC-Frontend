@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {TextField} from '@material-ui/core';
+import {TextField, InputLabelProps, InputProps} from '@material-ui/core';
 
 interface Props {
     id: string;
@@ -18,11 +18,13 @@ const FormInput: React.FC<Props> = ({
     label,
     required,
     type = 'text',
-    variant = 'outlined',
+    variant = 'standard',
     values,
     setValue,
 }) => {
     const classes = useStyles();
+    const classInputLabel = useStylesInputLabelProps();
+    const classInput = useStylesInputProps();
 
     const handleTextInput = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const {value} = event.target;
@@ -33,6 +35,8 @@ const FormInput: React.FC<Props> = ({
     return (
         <TextField
             className={classes.textField}
+            InputLabelProps={{classes: classInputLabel} as Partial<InputLabelProps>}
+            InputProps={{classes: classInput} as Partial<InputProps>}
             id={id}
             label={label}
             type={type}
@@ -50,7 +54,30 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         textField: {
             width: '100%',
-            marginBottom: theme.spacing(3),
+            marginTop: theme.spacing(2),
         },
+    })
+);
+
+const useStylesInputLabelProps = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            backgroundColor: 'none',
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+        },
+        focused: {},
+    })
+);
+
+const useStylesInputProps = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            overflow: 'hidden',
+            background: 'none',
+            transition: theme.transitions.create(['border-color', 'box-shadow']),
+            color: theme.palette.getContrastText(theme.palette.background.paper),
+        },
+
+        focused: {},
     })
 );

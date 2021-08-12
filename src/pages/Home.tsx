@@ -8,7 +8,7 @@ import DefaultTemplate from 'styles/templates';
 import useReduxStore from 'hooks/useReduxStore';
 
 import SearchFIeld from 'components/home/SearchFIeld';
-import CreateNewProject from 'components/home/CreateNewProject';
+import CreateNewProject from 'components/home/CreateProject';
 import ProjectsTable from 'components/home/ProjectsTable';
 
 const Home: React.FC = () => {
@@ -22,6 +22,7 @@ const Home: React.FC = () => {
             <>
                 <Box className={classes.box}>
                     <SearchFIeld />
+
                     <CreateNewProject />
                 </Box>
                 <ProjectsTable rows={projects} />
@@ -35,7 +36,6 @@ export default Home;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         box: {display: 'flex', justifyContent: 'space-between'},
-
         gridContainer: {
             height: `calc(100vh - 60px)`,
         },

@@ -5,10 +5,12 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Divider, Paper, Typography} from '@material-ui/core';
 
 import FormInput from 'components/shared/FormInput';
-import DisplayMessage, {PropsDisplayMessage} from 'components/shared/DisplayMessage';
+import DisplayMessage from 'components/shared/DisplayMessage';
 
 import useReduxStore from 'hooks/useReduxStore';
-import useFormSignUp from 'hooks/formSignUp/useFormSignUp';
+import useFormSignUp from 'components/login/hooks/useFormSignUp';
+
+import type {PropsDisplayMessage} from 'components/shared/DisplayMessage';
 
 const FormSignup: React.FC = () => {
     const {
@@ -40,14 +42,50 @@ const FormSignup: React.FC = () => {
         <>
             {id && <Redirect to="/home" />}
             <Paper className={classes.form} component="form" elevation={0} onSubmit={handleSubmit}>
-                <Typography className={classes.typography}>Sign Up</Typography>
+                <Typography className={classes.typography}>SIGN UP</Typography>
                 <Divider className={classes.divider} />
-                <FormInput id="name" label="Name" type="text" required values={formValues} setValue={setFormValues} />
-                <FormInput id="email" label="Email" type="email" required values={formValues} setValue={setFormValues} />
-                <FormInput id="password" label="Password" type="password" required values={formValues} setValue={setFormValues} />
-                <FormInput id="confirmPassword" label="Confirm Password" type="password" required values={formValues} setValue={setFormValues} />
-                {serverMessage.message && <DisplayMessage message={serverMessage.message} type={serverMessage.type} />}
-                <Button disabled={fetchStates.start} type="submit">
+                <FormInput
+                    id="name"
+                    label="Name"
+                    type="text"
+                    required
+                    values={formValues}
+                    setValue={setFormValues}
+                />
+                <FormInput
+                    id="email"
+                    label="Email"
+                    type="email"
+                    required
+                    values={formValues}
+                    setValue={setFormValues}
+                />
+                <FormInput
+                    id="password"
+                    label="Password"
+                    type="password"
+                    required
+                    values={formValues}
+                    setValue={setFormValues}
+                />
+                <FormInput
+                    id="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
+                    required
+                    values={formValues}
+                    setValue={setFormValues}
+                />
+                {serverMessage.message && (
+                    <DisplayMessage message={serverMessage.message} type={serverMessage.type} />
+                )}
+                <Button
+                    className={classes.button}
+                    variant="contained"
+                    color="primary"
+                    disabled={fetchStates.start}
+                    type="submit"
+                >
                     Submit
                 </Button>
             </Paper>
@@ -66,11 +104,14 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'column',
             alignItems: 'center',
             padding: theme.spacing(3),
+            color: theme.palette.getContrastText(theme.palette.background.paper),
         },
         typography: {
             alignSelf: 'flex-start',
             marginBottom: theme.spacing(1),
+            fontWeight: 'bold',
         },
         divider: {width: '100%', height: '1px'},
+        button: {marginTop: theme.spacing(2)},
     })
 );

@@ -18,7 +18,7 @@ interface PropsCardItem {
     description: string;
     important: boolean;
     background?: string;
-    projectID: string;
+    projectName: string;
     pathRedirect: string;
 }
 
@@ -26,7 +26,7 @@ const CardItem: React.FC<PropsCardItem> = ({
     title,
     description,
     important,
-    projectID,
+    projectName,
     pathRedirect,
 }) => {
     const classes = useStyles();
@@ -34,8 +34,9 @@ const CardItem: React.FC<PropsCardItem> = ({
     const [content, setContent] = useState(true);
 
     const redirectCallback = useCallback(
-        () => history.push(`/projects/${projectID}/${pathRedirect}`),
-        [pathRedirect, history, projectID]
+        () =>
+            history.push(`/${projectName.replace(/ /g, '-').toLowerCase().trim()}/${pathRedirect}`),
+        [pathRedirect, projectName]
     );
 
     return (

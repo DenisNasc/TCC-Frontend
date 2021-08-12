@@ -1,4 +1,8 @@
-import {CURRENT_PROJECT_UPDATE, CURRENT_PROJECT_RESTART} from 'state/actions/projects';
+import {
+    CURRENT_PROJECT_UPDATE,
+    CURRENT_PROJECT_RESTART,
+    CURRENT_PROJECT_CREATE_STATION,
+} from 'state/actions/currentProject';
 import type {
     TypeCurrentProjectReducer,
     TypeCurrentProjectState,
@@ -686,7 +690,9 @@ const currentProjectReducer: TypeCurrentProjectReducer = (
         case CURRENT_PROJECT_UPDATE: {
             return {...state, ...payload};
         }
-
+        case CURRENT_PROJECT_CREATE_STATION: {
+            return {...state, stations: state.stations.concat(payload.stations || [])};
+        }
         case CURRENT_PROJECT_RESTART: {
             return {...initialState};
         }

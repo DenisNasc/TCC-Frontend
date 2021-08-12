@@ -10,7 +10,11 @@ import useReduxStore from 'hooks/useReduxStore';
 import useLogout from 'hooks/header/useLogout';
 
 const Header: React.FC = () => {
-    const [logoutFetchStates, setLogoutFetchStates] = useState({start: false, success: false, fail: false});
+    const [logoutFetchStates, setLogoutFetchStates] = useState({
+        start: false,
+        success: false,
+        fail: false,
+    });
 
     const classes = useStyles();
 
@@ -41,7 +45,9 @@ const Header: React.FC = () => {
         <Paper className={classes.paper}>
             <Typography>千鶴 PROJECT</Typography>
             <nav className={classes.nav}>
-                <IconButton onClick={handleTheme}>{darkMode ? <IconBrightness4 /> : <IconBrightness7 />}</IconButton>
+                <IconButton onClick={handleTheme}>
+                    {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}
+                </IconButton>
                 {id && (
                     <>
                         <Divider orientation="vertical" flexItem className={classes.divider} />
@@ -70,8 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: '#52688F',
-            color: '#E3E7F1',
+            color: theme.palette.getContrastText(theme.palette.background.paper),
         },
         nav: {
             display: 'flex',

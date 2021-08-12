@@ -14,7 +14,6 @@ export type TypeStation = {
     id: string;
     name: string;
     longitudinal: number;
-    order: number;
     coordinates: TypeStationCoordinate[];
     createdAt: string;
     updatedAt: string | null;

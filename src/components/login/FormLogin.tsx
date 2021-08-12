@@ -8,11 +8,12 @@ import FormInput from 'components/shared/FormInput';
 import DisplayMessage from 'components/shared/DisplayMessage';
 
 import useReduxStore from 'hooks/useReduxStore';
-import useLogin from 'hooks/formLogin/useFormLogin';
 
 import type {PropsDisplayMessage} from 'components/shared/DisplayMessage';
 import type {TypeFetchStates} from 'types/hooks';
-import type {HookParams} from 'hooks/formLogin/useFormLogin';
+import type {HookParams} from 'components/login/hooks/useFormLogin';
+
+import useLogin from './hooks/useFormLogin';
 
 const FormLogin: React.FC = () => {
     const {
@@ -20,8 +21,15 @@ const FormLogin: React.FC = () => {
     } = useReduxStore();
 
     const [formValues, setFormValues] = useState<HookParams>({email: '', password: ''});
-    const [fetchStates, setFetchStates] = useState<TypeFetchStates>({start: false, success: false, fail: false});
-    const [serverMessage, setServerMessage] = useState<PropsDisplayMessage>({message: '', type: 'error'});
+    const [fetchStates, setFetchStates] = useState<TypeFetchStates>({
+        start: false,
+        success: false,
+        fail: false,
+    });
+    const [serverMessage, setServerMessage] = useState<PropsDisplayMessage>({
+        message: '',
+        type: 'error',
+    });
 
     const classes = useStyles();
 
@@ -37,12 +45,34 @@ const FormLogin: React.FC = () => {
         <>
             {id && <Redirect to="/home" />}
             <Paper className={classes.form} component="form" elevation={0} onSubmit={handleLogin}>
-                <Typography className={classes.typography}>Login</Typography>
+                <Typography className={classes.typography}>SIGN IN</Typography>
                 <Divider className={classes.divider} />
-                <FormInput id="email" label="Email" type="email" required values={formValues} setValue={setFormValues} />
-                <FormInput id="password" label="Password" type="password" required values={formValues} setValue={setFormValues} />
-                {serverMessage.message && <DisplayMessage message={serverMessage.message} type={serverMessage.type} />}
-                <Button disabled={fetchStates.start} type="submit">
+                <FormInput
+                    id="email"
+                    label="Email"
+                    type="email"
+                    required
+                    values={formValues}
+                    setValue={setFormValues}
+                />
+                <FormInput
+                    id="password"
+                    label="Password"
+                    type="password"
+                    required
+                    values={formValues}
+                    setValue={setFormValues}
+                />
+                {serverMessage.message && (
+                    <DisplayMessage message={serverMessage.message} type={serverMessage.type} />
+                )}
+                <Button
+                    disabled={fetchStates.start}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                >
                     Submit
                 </Button>
             </Paper>
@@ -61,11 +91,14 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'column',
             alignItems: 'center',
             padding: theme.spacing(3),
+            color: theme.palette.getContrastText(theme.palette.background.paper),
         },
         typography: {
             alignSelf: 'flex-start',
             marginBottom: theme.spacing(1),
+            fontWeight: 'bold',
         },
         divider: {width: '100%', height: '1px'},
+        button: {marginTop: theme.spacing(2)},
     })
 );

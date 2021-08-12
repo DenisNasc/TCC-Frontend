@@ -2,11 +2,12 @@ import {useState, useEffect, useCallback} from 'react';
 import {useDispatch} from 'react-redux';
 
 import {axiosDevInstance} from 'fetch/axiosInstances';
-
-import type ResponseLogin from 'types/fetch/login';
-import type {TypeFetchStates, TypeHandleState, TypeHandleMessage, TypeHandleHookParams} from 'types/hooks';
-
 import {USER_LOGIN} from 'state/actions/user';
+
+import type {TypeFetchStates, TypeHandleState, TypeHandleMessage, TypeHandleHookParams} from 'types/hooks';
+import type {ResponsePostSignUp, ParamsPostSignUp} from 'types/fetch/signUp';
+import type {ResponseGetUsers} from 'types/fetch/users';
+import type {ResponseGetProjects} from 'types/fetch/projects';
 
 export interface HookParams {
     name: string;
@@ -45,17 +46,21 @@ const useFormSignUp = (
 
         const createNewUser = async () => {
             try {
-                const {data} = await axiosDev.post('/signup', {
+                const postParams: ParamsPostSignUp = {
                     name,
                     email,
                     password,
-                });
+                };
+
+                const {
+                    data: {message, ...data},
+                } = await axiosDev.post<ResponsePostSignUp>('/signup', postParams);
 
                 setUserID(data.userID);
 
                 handleMessage({
                     type: 'success',
-                    message: 'Usuário criado com sucesso',
+                    message,
                 });
                 handleState({start: false, success: true, fail: false});
                 handleParams({name: '', email: '', password: '', confirmPassword: ''});
@@ -76,10 +81,14 @@ const useFormSignUp = (
 
         const populateUserState = async () => {
             try {
-                const {data: user} = await axiosDev.get(`/users/${userID}`);
-                const {data: projects} = await axiosDev.get(`/users/${userID}/projects`);
+                const {
+                    data: {users},
+                } = await axiosDev.get<ResponseGetUsers>(`/users/${userID}`);
+                const {
+                    data: {projects},
+                } = await axiosDev.get<ResponseGetProjects>(`/users/${userID}/projects`);
 
-                const {name, email, id} = user;
+                const {name, email, id} = users[0];
 
                 const payload = {name, email, id, projects};
                 dispatch({type: USER_LOGIN, payload});

@@ -1,5 +1,4 @@
-import React, {useState, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
@@ -12,10 +11,6 @@ import {
     ExitToApp as IconExitToApp,
 } from '@material-ui/icons';
 
-import {USER_CREATE_PROJECT} from 'state/actions/user';
-
-import FormInput from 'components/shared/FormInput';
-
 const itens = [
     {title: 'Home', icon: IconHome, path: '/home/'},
     {title: 'User', icon: IconPerson, path: '/user/'},
@@ -25,24 +20,7 @@ const itens = [
 
 const LateralMenu: React.FC = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const {push} = useHistory();
-
-    const [formValues, setFormValues] = useState({
-        project: '',
-        engineer: '',
-        shipyard: '',
-    });
-
-    const createNewProject = (event: React.FormEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        // VERIFICAR SE OS DADOS DO NOVO PROJETO ESTÃO VÁLIDOS
-        // ENVIAR OS DADOS DO NOVO PROJETO PARA O BANCO DE DADOS
-        // RECEBER A NOVA LISTA DE PROJETOS
-
-        // ENVIAR A NOVA LISTA DE PROJETOS PRO REDUCER USER
-        dispatch({type: USER_CREATE_PROJECT, payload: {...formValues}});
-    };
 
     const pushToPage = useCallback(
         (path: string) => () => {
@@ -75,60 +53,6 @@ const LateralMenu: React.FC = () => {
                     </ListItemIcon>
                     <ListItemText primary="Sair" />
                 </ListItem>
-
-                {/* // <Collapse in={isOpen} className={classes.collapse} timeout="auto" unmountOnExit>
-                //     <Paper
-                //         component="form"
-                //         className={classes.collapsePaper}
-                //         onSubmit={createNewProject}
-                //     >
-                //         <FormInput
-                //             id="project"
-                //             label="Project Name"
-                //             type="text"
-                //             required
-                //             values={formValues}
-                //             setValue={setFormValues}
-                //             variant="standard"
-                //         />
-                //         <FormInput
-                //             id="engineer"
-                //             label="Engineer"
-                //             type="text"
-                //             required
-                //             values={formValues}
-                //             setValue={setFormValues}
-                //             variant="standard"
-                //         />
-                //         <FormInput
-                //             id="shipyard"
-                //             label="Shipyard"
-                //             type="text"
-                //             required
-                //             values={formValues}
-                //             setValue={setFormValues}
-                //             variant="standard"
-                //         />
-                //         <Box className={classes.collapseActions}>
-                //             <IconButton
-                //                 onClick={openCloseCollapse}
-                //                 disableFocusRipple
-                //                 disabled={!isOpen}
-                //                 className={classes.buttonClose}
-                //             >
-                //                 <IconClose />
-                //             </IconButton>
-                //             <IconButton
-                //                 disableFocusRipple
-                //                 disabled={!isOpen}
-                //                 className={classes.buttonCheck}
-                //                 type="submit"
-                //             >
-                //                 <IconCheck />
-                //             </IconButton>
-                //         </Box>
-                //     </Paper>
-                // </Collapse> */}
             </List>
         </Paper>
     );
