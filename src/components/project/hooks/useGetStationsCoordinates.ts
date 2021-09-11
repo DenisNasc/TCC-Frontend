@@ -11,13 +11,14 @@ import type {ResponseGetCoordinates} from 'types/fetch/coordinates';
 interface HookParams {
     userID: string;
     projectID: string;
+    optional?: boolean;
 }
 
 const useGetStationsCoordinates = (params: HookParams): void => {
     const dispatch = useDispatch();
     const axiosDev = axiosDevInstance();
 
-    const {userID, projectID} = params;
+    const {userID, projectID, optional} = params;
 
     useEffect(() => {
         const getStationsData = async () => {
@@ -47,7 +48,7 @@ const useGetStationsCoordinates = (params: HookParams): void => {
         };
 
         getStationsData();
-    }, [userID, projectID]);
+    }, [userID, projectID, optional]);
 };
 
 export default useGetStationsCoordinates;

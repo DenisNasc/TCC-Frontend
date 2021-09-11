@@ -3,9 +3,9 @@ import {Redirect} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Divider, Paper, Typography} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 
 import FormInput from 'components/shared/FormInput';
-import DisplayMessage from 'components/shared/DisplayMessage';
 
 import useReduxStore from 'hooks/useReduxStore';
 import useFormSignUp from 'components/login/hooks/useFormSignUp';
@@ -77,7 +77,13 @@ const FormSignup: React.FC = () => {
                     setValue={setFormValues}
                 />
                 {serverMessage.message && (
-                    <DisplayMessage message={serverMessage.message} type={serverMessage.type} />
+                    <Alert
+                        severity={serverMessage.type}
+                        variant="standard"
+                        className={classes.displayMessage}
+                    >
+                        {serverMessage.message}
+                    </Alert>
                 )}
                 <Button
                     className={classes.button}
@@ -86,7 +92,7 @@ const FormSignup: React.FC = () => {
                     disabled={fetchStates.start}
                     type="submit"
                 >
-                    Submit
+                    Cadastrar
                 </Button>
             </Paper>
         </>
@@ -110,6 +116,9 @@ const useStyles = makeStyles((theme: Theme) =>
             alignSelf: 'flex-start',
             marginBottom: theme.spacing(1),
             fontWeight: 'bold',
+        },
+        displayMessage: {
+            marginTop: theme.spacing(2),
         },
         divider: {width: '100%', height: '1px'},
         button: {marginTop: theme.spacing(2)},

@@ -16,7 +16,12 @@ export interface HookParams {
     password: string;
 }
 
-const useFormLogin = (states: TypeFetchStates, handleState: TypeHandleState, handleMessage: TypeHandleMessage, params: HookParams): void => {
+const useFormLogin = (
+    states: TypeFetchStates,
+    handleState: TypeHandleState,
+    handleMessage: TypeHandleMessage,
+    params: HookParams
+): void => {
     const dispatch = useDispatch();
     const [userID, setUserID] = useState('');
 
@@ -42,8 +47,8 @@ const useFormLogin = (states: TypeFetchStates, handleState: TypeHandleState, han
 
                 handleState({start: false, success: true, fail: false});
             } catch (error) {
-                const {message} = error.response.data || 'Erro inesperado no servidor';
-
+                const message = error.response?.data.message || 'Erro inesperado no servidor';
+                console.log(message);
                 handleMessage({
                     type: 'error',
                     message,

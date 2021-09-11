@@ -3,12 +3,11 @@ import {Redirect} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Button, Divider, Paper, Typography} from '@material-ui/core';
+import {Alert} from '@material-ui/lab';
 
 import FormInput from 'components/shared/FormInput';
-import DisplayMessage from 'components/shared/DisplayMessage';
 
 import useReduxStore from 'hooks/useReduxStore';
-
 import type {PropsDisplayMessage} from 'components/shared/DisplayMessage';
 import type {TypeFetchStates} from 'types/hooks';
 import type {HookParams} from 'components/login/hooks/useFormLogin';
@@ -64,7 +63,13 @@ const FormLogin: React.FC = () => {
                     setValue={setFormValues}
                 />
                 {serverMessage.message && (
-                    <DisplayMessage message={serverMessage.message} type={serverMessage.type} />
+                    <Alert
+                        severity={serverMessage.type}
+                        variant="standard"
+                        className={classes.displayMessage}
+                    >
+                        {serverMessage.message}
+                    </Alert>
                 )}
                 <Button
                     disabled={fetchStates.start}
@@ -73,7 +78,7 @@ const FormLogin: React.FC = () => {
                     color="primary"
                     className={classes.button}
                 >
-                    Submit
+                    Entrar
                 </Button>
             </Paper>
         </>
@@ -92,6 +97,9 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             padding: theme.spacing(3),
             color: theme.palette.getContrastText(theme.palette.background.paper),
+        },
+        displayMessage: {
+            marginTop: theme.spacing(2),
         },
         typography: {
             alignSelf: 'flex-start',

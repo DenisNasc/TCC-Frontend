@@ -184,8 +184,8 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         typographyStationsList: {fontSize: '16pt'},
         list: {
-            maxHeight: '700px',
-            overflowY: 'scroll',
+            maxHeight: 'calc(100vh - 60px - 48px - 36px - 24px - 56px - 16px)',
+            overflowY: 'auto',
             backgroundColor: theme.palette.background.paper,
         },
         paper: {width: '60%'},

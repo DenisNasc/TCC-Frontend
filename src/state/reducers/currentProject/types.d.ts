@@ -2,6 +2,7 @@ import type {Reducer} from 'redux';
 
 export type TypeStationCoordinate = {
     id: string;
+    stationID?: string;
     order?: number;
     transversal: number;
     vertical: number;
@@ -52,6 +53,8 @@ export type TypeCurrentProjectPayload = {
     draft?: number;
 
     stations?: TypeStation[];
+    coordinates?: TypeStationCoordinate[];
+    coordinateID?: string;
 
     createdAt?: string;
     updatedAt?: string;

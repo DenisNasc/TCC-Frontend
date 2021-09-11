@@ -2,12 +2,90 @@ import {
     CURRENT_PROJECT_UPDATE,
     CURRENT_PROJECT_RESTART,
     CURRENT_PROJECT_CREATE_STATION,
+    CURRENT_PROJECT_ADD_CORDINATE,
+    CURRENT_PROJECT_DEL_CORDINATE,
 } from 'state/actions/currentProject';
 import type {
     TypeCurrentProjectReducer,
     TypeCurrentProjectState,
     TypeCurrentProjectAction,
 } from './types';
+
+const initialState: TypeCurrentProjectState = {
+    id: '',
+    userID: '',
+    name: '',
+
+    shipyard: '',
+    engineer: '',
+
+    lengthOverall: 0,
+    lengthPerpendiculars: 0,
+    breadth: 0,
+    draft: 0,
+
+    stations: [],
+
+    createdAt: '',
+    updatedAt: '',
+};
+
+const currentProjectReducer: TypeCurrentProjectReducer = (
+    state = initialState,
+    action: TypeCurrentProjectAction
+) => {
+    const {type, payload} = action;
+
+    switch (type) {
+        case CURRENT_PROJECT_UPDATE: {
+            return {...state, ...payload};
+        }
+        case CURRENT_PROJECT_CREATE_STATION: {
+            return {...state, stations: state.stations.concat(payload.stations || [])};
+        }
+        case CURRENT_PROJECT_ADD_CORDINATE: {
+            const {stations} = state;
+            const {coordinates} = payload;
+
+            const newStations = stations.map(station => {
+                const newCoordinates = coordinates?.filter(e => e.stationID === station.id);
+
+                return {
+                    ...station,
+                    coordinates: newCoordinates?.length ? newCoordinates : station.coordinates,
+                };
+            });
+
+            return {...state, stations: newStations};
+        }
+
+        case CURRENT_PROJECT_DEL_CORDINATE: {
+            const {stations} = state;
+            const {coordinateID} = payload;
+
+            const newStations = stations.map(station => {
+                const newCoordinates = station.coordinates?.filter(e => e.id !== coordinateID);
+
+                return {
+                    ...station,
+                    coordinates: newCoordinates,
+                };
+            });
+
+            return {...state, stations: newStations};
+        }
+
+        case CURRENT_PROJECT_RESTART: {
+            return {...initialState};
+        }
+
+        default: {
+            return {...state};
+        }
+    }
+};
+
+export default currentProjectReducer;
 
 // const dataTest = [
 //     {
@@ -660,47 +738,3 @@ import type {
 //         ],
 //     },
 // ];
-
-const initialState: TypeCurrentProjectState = {
-    id: '',
-    userID: '',
-    name: '',
-
-    shipyard: '',
-    engineer: '',
-
-    lengthOverall: 0,
-    lengthPerpendiculars: 0,
-    breadth: 0,
-    draft: 0,
-
-    stations: [],
-
-    createdAt: '',
-    updatedAt: '',
-};
-
-const currentProjectReducer: TypeCurrentProjectReducer = (
-    state = initialState,
-    action: TypeCurrentProjectAction
-) => {
-    const {type, payload} = action;
-
-    switch (type) {
-        case CURRENT_PROJECT_UPDATE: {
-            return {...state, ...payload};
-        }
-        case CURRENT_PROJECT_CREATE_STATION: {
-            return {...state, stations: state.stations.concat(payload.stations || [])};
-        }
-        case CURRENT_PROJECT_RESTART: {
-            return {...initialState};
-        }
-
-        default: {
-            return {...state};
-        }
-    }
-};
-
-export default currentProjectReducer;

@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Paper, List, ListItem, ListItemText, ListItemIcon} from '@material-ui/core';
+import {Button, Paper, List, ListItem, ListItemText, ListItemIcon} from '@material-ui/core';
 import {
     Home as IconHome,
     Person as IconPerson,
@@ -46,13 +46,6 @@ const LateralMenu: React.FC = () => {
                         <ListItemText primary={e.title} />
                     </ListItem>
                 ))}
-
-                <ListItem selected button onClick={() => {}} className={classes.logoutButton}>
-                    <ListItemIcon>
-                        <IconExitToApp />
-                    </ListItemIcon>
-                    <ListItemText primary="Sair" />
-                </ListItem>
             </List>
         </Paper>
     );
@@ -79,25 +72,8 @@ const useStyles = makeStyles((theme: Theme) =>
         listItem: {
             width: '100%',
             margin: '0px',
+
             padding: `${theme.spacing(1)}px 0px`,
         },
-        logoutButton: {
-            width: '100%',
-            margin: '0px',
-            padding: `${theme.spacing(1)}px 0px`,
-            bottom: '0',
-            color: 'red',
-        },
-        buttonNewProject: {
-            width: '100%',
-        },
-        collapse: {
-            width: '90%',
-        },
-        collapsePaper: {padding: theme.spacing(2)},
-        collapseTitle: {textAlign: 'center'},
-        collapseActions: {display: 'flex', justifyContent: 'flex-end'},
-        buttonClose: {color: theme.palette.error.main},
-        buttonCheck: {color: theme.palette.success.main},
     })
 );

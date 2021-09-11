@@ -4,7 +4,12 @@ import {useDispatch} from 'react-redux';
 import {axiosDevInstance} from 'fetch/axiosInstances';
 import {USER_LOGIN} from 'state/actions/user';
 
-import type {TypeFetchStates, TypeHandleState, TypeHandleMessage, TypeHandleHookParams} from 'types/hooks';
+import type {
+    TypeFetchStates,
+    TypeHandleState,
+    TypeHandleMessage,
+    TypeHandleHookParams,
+} from 'types/hooks';
 import type {ResponsePostSignUp, ParamsPostSignUp} from 'types/fetch/signUp';
 import type {ResponseGetUsers} from 'types/fetch/users';
 import type {ResponseGetProjects} from 'types/fetch/projects';
@@ -68,7 +73,7 @@ const useFormSignUp = (
                 handleState({start: false, success: false, fail: true});
                 handleMessage({
                     type: 'error',
-                    message: 'Não foi possível cadastrar o usuário',
+                    message: 'Erro inesperado no servidor',
                 });
             }
         };
