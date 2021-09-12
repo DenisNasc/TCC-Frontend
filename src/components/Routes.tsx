@@ -7,6 +7,7 @@ import Login from 'pages/Login';
 import Home from 'pages/Home';
 import Project from 'pages/Project';
 import TabelaCotas from 'pages/TabelaCotas';
+import CurvasHidrostaticas from 'pages/CurvasHidrostaticas';
 
 const Routes: React.FC = () => {
     const {
@@ -28,6 +29,9 @@ const Routes: React.FC = () => {
                 </Route>
                 <Route path="/:projectID/tabela-cotas" exact>
                     <TabelaCotas />
+                </Route>
+                <Route path="/:projectID/curvas-hidrostaticas" exact>
+                    <CurvasHidrostaticas />
                 </Route>
             </Switch>
         </Router>

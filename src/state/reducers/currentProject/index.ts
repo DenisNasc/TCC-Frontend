@@ -12,8 +12,8 @@ import type {
 } from './types';
 
 const initialState: TypeCurrentProjectState = {
-    id: '',
     userID: '',
+    id: '',
     name: '',
 
     shipyard: '',

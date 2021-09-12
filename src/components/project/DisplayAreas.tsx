@@ -41,7 +41,6 @@ const DisplayAreas: React.FC = () => {
                         key={e.title}
                         title={e.title}
                         description={e.description}
-                        important={e.important}
                         pathRedirect={e.pathRedirect}
                         projectName={name}
                     />
@@ -49,14 +48,6 @@ const DisplayAreas: React.FC = () => {
             ) : (
                 <div>OI</div>
             )}
-
-            <CardItem
-                title="Outros"
-                description="Para acrescentar outros arquivos ao seu projeto, crie-os aqui"
-                important
-                pathRedirect="outros"
-                projectName={name}
-            />
         </Box>
     );
 };

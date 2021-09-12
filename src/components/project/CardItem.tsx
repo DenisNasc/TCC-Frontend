@@ -16,7 +16,6 @@ import {Description as IconDescription} from '@material-ui/icons';
 interface PropsCardItem {
     title: string;
     description: string;
-    important: boolean;
     background?: string;
     projectName: string;
     pathRedirect: string;
@@ -25,7 +24,7 @@ interface PropsCardItem {
 const CardItem: React.FC<PropsCardItem> = ({
     title,
     description,
-    important,
+
     projectName,
     pathRedirect,
 }) => {
@@ -40,7 +39,7 @@ const CardItem: React.FC<PropsCardItem> = ({
     );
 
     return (
-        <Card style={{backgroundColor: important ? '' : '#f0f'}} className={classes.card}>
+        <Card className={classes.card}>
             <CardHeader
                 className={classes.header}
                 title={title}
@@ -63,13 +62,8 @@ const CardItem: React.FC<PropsCardItem> = ({
                     Ajuda
                 </Button>
                 <Button size="small" color="primary" onClick={redirectCallback}>
-                    Editar
+                    Visualizar
                 </Button>
-                {!important && (
-                    <Button size="small" color="primary">
-                        Delete
-                    </Button>
-                )}
             </CardActions>
         </Card>
     );
