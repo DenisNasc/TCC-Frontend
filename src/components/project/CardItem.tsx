@@ -21,13 +21,7 @@ interface PropsCardItem {
     pathRedirect: string;
 }
 
-const CardItem: React.FC<PropsCardItem> = ({
-    title,
-    description,
-
-    projectName,
-    pathRedirect,
-}) => {
+const CardItem: React.FC<PropsCardItem> = ({title, description, projectName, pathRedirect}) => {
     const classes = useStyles();
     const history = useHistory();
     const [content, setContent] = useState(true);

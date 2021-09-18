@@ -13,7 +13,14 @@ import type {ParamsPostProjects} from 'types/fetch/projects';
 
 import useCreateProject from './hooks/useCreateProject';
 
-const projectParamsInitialState: ParamsPostProjects = {name: ''};
+export const projectParamsInitialState: ParamsPostProjects = {
+    name: '',
+    breadth: 0,
+    draft: 0,
+    depth: 0,
+    lengthOverall: 0,
+    lengthPerpendiculars: 0,
+};
 
 const CreateProject: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +33,7 @@ const CreateProject: React.FC = () => {
         user: {id: userID},
     } = useReduxStore();
 
-    const classes = useStyles({height: 300, width: 300});
+    const classes = useStyles({height: 450, width: 800});
 
     const {start} = fetchStates;
 
@@ -46,6 +53,8 @@ const CreateProject: React.FC = () => {
         setFetchStates({start: true, success: false, fail: false});
         setIsOpen(false);
     }, []);
+
+    useCreateProject({userID, ...projectParams}, fetchStates, setFetchStates, setProjectParams);
 
     return (
         <>
@@ -67,30 +76,71 @@ const CreateProject: React.FC = () => {
                     component="form"
                     onSubmit={handleCreateProject}
                 >
-                    <Typography>Criar Novo Projeto</Typography>
+                    <Box className={classes.boxContainer}>
+                        <Box className={classes.boxColumn}>
+                            <Typography>Informações Gerais</Typography>
+                            <FormInput
+                                id="name"
+                                label="Nome do projeto"
+                                type=""
+                                values={projectParams}
+                                setValue={setProjectParams}
+                                required
+                            />
+                            <FormInput
+                                id="engineer"
+                                label="Engenheiro responsável"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                            <FormInput
+                                id="shipyard"
+                                label="Estaleiro construtor"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                        </Box>
 
-                    <FormInput
-                        id="name"
-                        label="Nome do projeto"
-                        type=""
-                        values={projectParams}
-                        setValue={setProjectParams}
-                        required
-                    />
-                    <FormInput
-                        id="engineer"
-                        label="Engenheiro responsável"
-                        type=""
-                        values={projectParams}
-                        setValue={setProjectParams}
-                    />
-                    <FormInput
-                        id="shipyard"
-                        label="Estaleiro construtor"
-                        type=""
-                        values={projectParams}
-                        setValue={setProjectParams}
-                    />
+                        <Box className={classes.boxColumn}>
+                            <Typography>Dados Técnicos</Typography>
+                            <FormInput
+                                id="lengthOverall"
+                                label="Comprimento Total"
+                                type="number"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                            <FormInput
+                                id="lengthPerpendiculars"
+                                label="Comprimento entre PP"
+                                type="number"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                            <FormInput
+                                id="breadth"
+                                label="Boca Moldada"
+                                type="number"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                            <FormInput
+                                id="depth"
+                                label="Pontal"
+                                type="number"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                            <FormInput
+                                id="draft"
+                                label="Calado de Projeto"
+                                type="number"
+                                values={projectParams}
+                                setValue={setProjectParams}
+                            />
+                        </Box>
+                    </Box>
+
                     <Box className={classes.buttonsBox}>
                         <Button disabled={start} type="submit">
                             Criar
@@ -122,6 +172,18 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
+        },
+        boxContainer: {
+            width: '100%',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+        },
+        boxColumn: {
+            height: '100%',
+            minWidth: '300px',
+            padding: `0px ${theme.spacing(2)}px`,
+            maxWidth: '500px',
         },
         buttonsBox: {
             width: '100%',
