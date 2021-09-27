@@ -1,20 +1,23 @@
-import {createMuiTheme} from '@material-ui/core/styles';
+import {createTheme} from '@material-ui/core/styles';
 
-export const theme = createMuiTheme({
+export const theme = createTheme({
     typography: {
-        fontFamily: ['Helvetica', 'sans-serif'].join(','),
+        fontFamily: ['Cambria'].join(','),
         fontSize: 14,
     },
     palette: {
         type: 'light',
         primary: {
-            main: '#0D47A1',
+            main: '#546E7A',
+            contrastText: '#FFF',
         },
+
         secondary: {
-            main: '#607D8B',
+            main: '#8D6E63',
+            contrastText: '#FFF',
         },
         background: {
-            paper: '#42A5F5',
+            paper: '#BDBDBD',
             default: '#E3E7F1',
         },
     },

@@ -43,7 +43,7 @@ const Header: React.FC = () => {
 
     return (
         <Paper className={classes.paper}>
-            <Typography>千鶴 PROJECT</Typography>
+            <Typography>STATIONS - Versão ALFA</Typography>
             <nav className={classes.nav}>
                 <IconButton onClick={handleTheme}>
                     {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}

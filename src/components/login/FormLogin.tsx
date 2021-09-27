@@ -91,12 +91,12 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         form: {
             borderRadius: '0px',
-            width: '70%',
+            width: '100%',
+            maxWidth: '500px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             padding: theme.spacing(3),
-            color: theme.palette.getContrastText(theme.palette.background.paper),
         },
         displayMessage: {
             marginTop: theme.spacing(2),

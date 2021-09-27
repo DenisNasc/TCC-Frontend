@@ -105,7 +105,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         form: {
             borderRadius: '0px',
-            width: '70%',
+            width: '100%',
+            maxWidth: '500px',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

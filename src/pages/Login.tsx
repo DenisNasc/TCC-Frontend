@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Button, Grid, Paper, Typography} from '@material-ui/core';
+import {useTheme, Theme, makeStyles, createStyles} from '@material-ui/core/styles';
+import {useMediaQuery, Button, Grid, Paper, Typography} from '@material-ui/core';
 
 import useReduxStore from 'hooks/useReduxStore';
 
@@ -9,9 +9,13 @@ import Header from 'components/Header';
 
 import FormLogin from 'components/login/FormLogin';
 import FormSignup from 'components/login/FormSignUp';
+import NewsTable from 'components/login/NewsTable';
 
 const Login: React.FC = () => {
     const classes = useStyles();
+
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('lg'));
 
     const {
         user: {id},
@@ -25,13 +29,26 @@ const Login: React.FC = () => {
     return (
         <>
             <Header />
-            <Grid container className={classes.gridContainer}>
-                <Grid className={classes.gridItem} item container xs={8}>
-                    <Paper className={classes.paper} elevation={0}>
-                        <Typography variant="h5">
+            <Grid
+                container
+                className={classes.gridContainer}
+                wrap="wrap"
+                direction={matches ? 'row' : 'column'}
+                spacing={3}
+            >
+                <Grid container item xs={12} lg={8}>
+                    <Grid
+                        container
+                        direction="column"
+                        item
+                        alignItems="center"
+                        justifyContent="center"
+                        xs={12}
+                    >
+                        <Typography variant="h5" className={classes.title}>
                             STATIONS: UM WEBAPP PARA PROJETOS NAVAIS
                         </Typography>
-                        <Typography className={classes.paragraf}>
+                        <Typography align="justify" className={classes.typography}>
                             Este é um software livre desenvolvido como trabalho de conclusão de
                             curso (TCC) pelo egresso do curso de engenharia naval da Universidade
                             Federal do Pará (UFPa) Denis Antônio Nascimento Costa, cujo objetivo é
@@ -41,7 +58,7 @@ const Login: React.FC = () => {
                             Sociedades Classificadoras.
                         </Typography>
 
-                        <Typography variant="body1" className={classes.paragraf}>
+                        <Typography align="justify" className={classes.typography}>
                             Ademais, vale ressaltar que esta aplicação está em constante
                             desenvolvimento e todo o seu código fonte pode ser encontrado nos
                             seguintes repositórios do Github:{' '}
@@ -49,38 +66,48 @@ const Login: React.FC = () => {
                             <a href="https://github.com/DenisNasc/TCC-Backend">BACKEND</a>.
                         </Typography>
 
-                        <Typography variant="body1" className={classes.paragraf}>
+                        <Typography align="justify" className={classes.typography}>
                             Para contato: devdenisbr@gmail.com
                         </Typography>
 
                         <Typography variant="h5" className={classes.title}>
                             NOVIDADES
                         </Typography>
-                    </Paper>
+                        <NewsTable />
+                    </Grid>
                 </Grid>
 
-                <Grid className={classes.gridItem} item container xs={4}>
-                    {login ? <FormLogin /> : <FormSignup />}
+                <Grid container item xs={12} lg={4}>
+                    <Grid
+                        container
+                        item
+                        direction="column"
+                        alignItems="center"
+                        justifyContent="flex-start"
+                        xs={12}
+                    >
+                        {login ? <FormLogin /> : <FormSignup />}
 
-                    {login ? (
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                            onClick={handleClick}
-                        >
-                            Don&apos;t have an account? Sign Up now!
-                        </Button>
-                    ) : (
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            className={classes.button}
-                            onClick={handleClick}
-                        >
-                            Already has an account? Login!
-                        </Button>
-                    )}
+                        {login ? (
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                                onClick={handleClick}
+                            >
+                                Ainda não possui uma conta? Cadastre-se!
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                className={classes.button}
+                                onClick={handleClick}
+                            >
+                                Já possui uma conta? Entrar!
+                            </Button>
+                        )}
+                    </Grid>
                 </Grid>
             </Grid>
         </>
@@ -92,18 +119,15 @@ export default Login;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         gridContainer: {
-            height: 'calc(100vh - 60px)',
+            padding: theme.spacing(2),
+            [theme.breakpoints.down('md')]: {
+                backgroundColor: 'none',
+            },
         },
-        gridItem: {
-            height: '100%',
-            padding: theme.spacing(3),
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-        },
-        paper: {width: '100%', background: 'none'},
-        title: {marginTop: theme.spacing(2)},
-        paragraf: {textAlign: 'justify', marginBottom: theme.spacing(1)},
+
+        paper: {background: 'none'},
+        title: {fontWeight: 'bold'},
+        typography: {alignSelf: 'flex-start', marginBottom: theme.spacing(1)},
         button: {
             marginTop: theme.spacing(2),
         },

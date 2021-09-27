@@ -34,6 +34,7 @@ const Pagination: React.FC<Props> = ({rows, rowsPerPage, page, setRowsPerPage, s
 
     return (
         <TablePagination
+            onPageChange={() => {}}
             align="center"
             className={classes.pagination}
             rowsPerPageOptions={[5, 10, 25, {label: 'All', value: -1}]}
