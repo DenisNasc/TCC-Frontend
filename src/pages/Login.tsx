@@ -29,38 +29,32 @@ const Login: React.FC = () => {
                 <Grid className={classes.gridItem} item container xs={8}>
                     <Paper className={classes.paper} elevation={0}>
                         <Typography variant="h5">
-                            Gerenciador de Projetos *COLOCAR UM NOME DAORA*
+                            STATIONS: UM WEBAPP PARA PROJETOS NAVAIS
                         </Typography>
                         <Typography className={classes.paragraf}>
-                            Este é um software desenvolvido com o objetivo de proporcionar uma forma
-                            de gerenciar e de aumentar a eficiência entre as partes envolvidas em
-                            projetos de engenharia naval. Afim de alcançar esta meta, pensou-se em
-                            concentrar todos os arquivos e todas as informações relevante no que
-                            tange o desenvolvimento de embarcações, tais como vesões do arranjo
-                            geral e do plano de linhas, além de dados sobre o estaleiro construtor e
-                            o armador.
+                            Este é um software livre desenvolvido como trabalho de conclusão de
+                            curso (TCC) pelo egresso do curso de engenharia naval da Universidade
+                            Federal do Pará (UFPa) Denis Antônio Nascimento Costa, cujo objetivo é
+                            auxiliar os discentes, os profissionais liberais e os entusiastas do
+                            ramo naval na atividade de projetar embarcações, oferecendo ferramentas
+                            de modelagem e de análise, seguindo regras da Marinha do Brasil e de
+                            Sociedades Classificadoras.
                         </Typography>
 
                         <Typography variant="body1" className={classes.paragraf}>
-                            Ademais, este empreendimento faz parte do trabalho de conclusão de curso
-                            (TCC) do discente Denis Nascimento da Faculdade de Engenharia Naval da
-                            Universidade Federal do Pará (FENAV).
+                            Ademais, vale ressaltar que esta aplicação está em constante
+                            desenvolvimento e todo o seu código fonte pode ser encontrado nos
+                            seguintes repositórios do Github:{' '}
+                            <a href="https://github.com/DenisNasc/TCC-Frontend">FRONTEND</a> /{' '}
+                            <a href="https://github.com/DenisNasc/TCC-Backend">BACKEND</a>.
+                        </Typography>
+
+                        <Typography variant="body1" className={classes.paragraf}>
+                            Para contato: devdenisbr@gmail.com
                         </Typography>
 
                         <Typography variant="h5" className={classes.title}>
-                            Agradecimentos
-                        </Typography>
-                        <Typography variant="body1" className={classes.paragraf}>
-                            Como egresso do curso de graduação em engenharia naval da Universidade
-                            Federal do Pará, gostaria de expressar meus profundos agradecimentos aos
-                            professores que fizeram valer a sua posição e compartilharam o seu
-                            conhecimento adquirido forma exemplar e sem fomentar questões
-                            desconfortáveis, principalmente de cunho psicológico nos discentes.
-                            Também, gostaria de expressar minha profunda gratidão aos meus pais os
-                            quais me apoiaram e proporcionaram o ambiente necessário para que eu
-                            pudesse lidar com as conjunturas da melhor maneira possível. Por fim,
-                            deixo um grande obrigado aos meus amigos os quais, ao longo desses anos,
-                            me ajudaram demasiadamente a seguir em frente. Agradeço a todos vocês!
+                            NOVIDADES
                         </Typography>
                     </Paper>
                 </Grid>
