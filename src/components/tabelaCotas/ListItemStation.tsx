@@ -68,7 +68,9 @@ const ListItemStation: React.FC<Props> = ({station: {name, longitudinal, coordin
                         <IconEdit />
                     </IconButton>
                 </Box>
+
                 <Typography className={classes.name}>{name.toUpperCase()}</Typography>
+
                 {isOpen ? (
                     <IconButton onClick={handleOpenCollapse}>
                         <IconExpandLess />
@@ -83,14 +85,14 @@ const ListItemStation: React.FC<Props> = ({station: {name, longitudinal, coordin
             <Collapse in={isOpen} timeout="auto" unmountOnExit className={classes.collapse}>
                 <List component="div" disablePadding>
                     {coordinates
-                        .map(({id: coordID, order, vertical, transversal}) => (
-                            <ListItem key={coordID} divider className={classes.listItem}>
+                        .map(({id: coordID, type, vertical, transversal}) => (
+                            <ListItem key={coordID} divider classes={{root: classes.listItemRoot}}>
                                 <StationCoordinate
                                     userID={userID}
                                     projectID={projectID}
                                     stationID={id}
                                     coordinateID={coordID}
-                                    order={order}
+                                    type={type}
                                     longitudinal={longitudinal}
                                     transversal={transversal}
                                     vertical={vertical}
@@ -126,11 +128,13 @@ const useStyles = makeStyles((theme: Theme) =>
             maxHeight: '284px',
             overflowY: 'auto',
         },
-        listItem: {
+        listItemRoot: {
             maxHeight: '72px',
             display: 'flex',
             justifyContent: 'space-between',
-            background: '#607D8B',
+            background: '#EEEEEE',
+            color: '#000',
+            padding: `${theme.spacing(1)}px 0px `,
         },
         listItemBox: {
             maxHeight: '72px',
