@@ -67,32 +67,36 @@ const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, lo
                     value={state.type}
                 />
             </Box>
+
             <Divider orientation="vertical" flexItem />
 
-            <Box className={classes.box}>
-                <Typography className={classes.typography}>Longitudinal</Typography>
-                <Typography>{longitudinal}</Typography>
+            <Box className={classes.boxCoordinates}>
+                <Box className={classes.box}>
+                    <Typography className={classes.typography}>Longitudinal</Typography>
+                    <Typography>{longitudinal}</Typography>
+                </Box>
+
+                <Box className={classes.box}>
+                    <Typography className={classes.typography}>Transversal</Typography>
+                    <TextField
+                        className={classes.textField}
+                        onChange={handleStates('transversal')}
+                        type="number"
+                        value={state.transversal}
+                    />
+                </Box>
+
+                <Box className={classes.box}>
+                    <Typography className={classes.typography}>Vertical</Typography>
+                    <TextField
+                        className={classes.textField}
+                        onChange={handleStates('vertical')}
+                        type="number"
+                        value={state.vertical}
+                    />
+                </Box>
             </Box>
 
-            <Box className={classes.box}>
-                <Typography className={classes.typography}>Transversal</Typography>
-                <TextField
-                    className={classes.textField}
-                    onChange={handleStates('transversal')}
-                    type="number"
-                    value={state.transversal}
-                />
-            </Box>
-
-            <Box className={classes.box}>
-                <Typography className={classes.typography}>Vertical</Typography>
-                <TextField
-                    className={classes.textField}
-                    onChange={handleStates('vertical')}
-                    type="number"
-                    value={state.vertical}
-                />
-            </Box>
             <Divider orientation="vertical" flexItem />
 
             <Box className={classes.actions}>
@@ -114,24 +118,29 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             display: 'flex',
             alignItems: 'center',
-            background: 'red',
+            background: '#9E9E9E',
             padding: '6px 0px',
             justifyContent: 'space-between',
         },
         box: {
-            minHeight: '60px',
-            maxHeight: '72px',
-            width: '400px',
+            minHeight: '48px',
+            padding: `0px ${theme.spacing(2)}px`,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'space-between',
         },
+        boxCoordinates: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            background: 'none',
+            width: '70%',
+        },
         textField: {maxWidth: '50px'},
-        actions: {display: 'flex'},
+        actions: {display: 'flex', width: '20%'},
         typography: {
             fontSize: '14px',
-            color: theme.palette.getContrastText('#607D8B'),
+            color: '#fff',
         },
     })
 );

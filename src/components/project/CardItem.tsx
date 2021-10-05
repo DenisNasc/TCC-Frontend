@@ -2,21 +2,11 @@ import React, {useState, useCallback} from 'react';
 import {useHistory} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {
-    Card,
-    CardHeader,
-    CardContent,
-    CardActions,
-    Button,
-    Typography,
-    Icon,
-} from '@material-ui/core';
-import {Description as IconDescription} from '@material-ui/icons';
+import {Card, CardHeader, CardContent, CardActions, Button, Typography} from '@material-ui/core';
 
 interface PropsCardItem {
     title: string;
     description: string;
-    background?: string;
     projectName: string;
     pathRedirect: string;
 }
@@ -24,7 +14,6 @@ interface PropsCardItem {
 const CardItem: React.FC<PropsCardItem> = ({title, description, projectName, pathRedirect}) => {
     const classes = useStyles();
     const history = useHistory();
-    const [content, setContent] = useState(true);
 
     const redirectCallback = useCallback(
         () =>
@@ -34,17 +23,7 @@ const CardItem: React.FC<PropsCardItem> = ({title, description, projectName, pat
 
     return (
         <Card className={classes.card}>
-            <CardHeader
-                className={classes.header}
-                title={title}
-                action={
-                    content && (
-                        <Icon>
-                            <IconDescription />
-                        </Icon>
-                    )
-                }
-            />
+            <CardHeader className={classes.header} title={title} />
             <CardContent className={classes.content}>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {description}
@@ -52,10 +31,10 @@ const CardItem: React.FC<PropsCardItem> = ({title, description, projectName, pat
             </CardContent>
 
             <CardActions className={classes.actions}>
-                <Button size="small" color="primary">
+                <Button disabled size="small" color="primary" variant="contained">
                     Ajuda
                 </Button>
-                <Button size="small" color="primary" onClick={redirectCallback}>
+                <Button size="small" color="primary" variant="contained" onClick={redirectCallback}>
                     Visualizar
                 </Button>
             </CardActions>

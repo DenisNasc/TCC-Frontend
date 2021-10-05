@@ -1,39 +1,38 @@
 import React, {useState, useCallback} from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Box, Button, Modal, Paper, Typography} from '@material-ui/core';
-import {Alert} from '@material-ui/lab';
+import {Box, Button, Divider, Modal, Paper, Typography} from '@material-ui/core';
 import {Add as IconAdd} from '@material-ui/icons';
 
 import FormInput from 'components/shared/FormInput';
 
-import useReduxStore from 'hooks/useReduxStore';
+import useStore from 'hooks/useReduxStore';
 
 import type {ParamsPostProjects} from 'types/fetch/projects';
 
 import useCreateProject from './hooks/useCreateProject';
 
-export const projectParamsInitialState: ParamsPostProjects = {
-    name: '',
-    breadth: 0,
-    draft: 0,
-    depth: 0,
-    lengthOverall: 0,
-    lengthPerpendiculars: 0,
-};
-
 const CreateProject: React.FC = () => {
+    const {
+        user: {id: userID, name},
+    } = useStore();
+
+    const projectParamsInitialState: ParamsPostProjects = {
+        breadth: null,
+        draft: null,
+        depth: null,
+        lengthOverall: null,
+        lengthPerpendiculars: null,
+        shipyard: '',
+        name: '',
+        engineer: name,
+    };
+
     const [isOpen, setIsOpen] = useState(false);
-    const [projectParams, setProjectParams] = useState<ParamsPostProjects>(
-        projectParamsInitialState
-    );
+    const [projectParams, setProjectParams] = useState({...projectParamsInitialState});
     const [fetchStates, setFetchStates] = useState({start: false, success: false, fail: false});
 
-    const {
-        user: {id: userID},
-    } = useReduxStore();
-
-    const classes = useStyles({height: 450, width: 800});
+    const classes = useStyles({height: 500, width: 800});
 
     const {start} = fetchStates;
 
@@ -71,14 +70,18 @@ const CreateProject: React.FC = () => {
 
             <Modal open={isOpen} onClose={closeModal}>
                 <Paper
-                    square
                     className={classes.paper}
                     component="form"
                     onSubmit={handleCreateProject}
+                    elevation={0}
                 >
+                    <Typography className={classes.typography}>CRIAR NOVO PROJETO</Typography>
+
+                    <Divider className={classes.divider} />
+
                     <Box className={classes.boxContainer}>
                         <Box className={classes.boxColumn}>
-                            <Typography>Informações Gerais</Typography>
+                            <Typography className={classes.title}>INFORMAÇÕES GERAIS</Typography>
                             <FormInput
                                 id="name"
                                 label="Nome do projeto"
@@ -102,9 +105,10 @@ const CreateProject: React.FC = () => {
                         </Box>
 
                         <Box className={classes.boxColumn}>
-                            <Typography>Dados Técnicos</Typography>
+                            <Typography className={classes.title}>DADOS TÉCNICOS</Typography>
                             <FormInput
                                 id="lengthOverall"
+                                required
                                 label="Comprimento Total"
                                 type="number"
                                 values={projectParams}
@@ -112,6 +116,7 @@ const CreateProject: React.FC = () => {
                             />
                             <FormInput
                                 id="lengthPerpendiculars"
+                                required
                                 label="Comprimento entre PP"
                                 type="number"
                                 values={projectParams}
@@ -119,6 +124,7 @@ const CreateProject: React.FC = () => {
                             />
                             <FormInput
                                 id="breadth"
+                                required
                                 label="Boca Moldada"
                                 type="number"
                                 values={projectParams}
@@ -126,6 +132,7 @@ const CreateProject: React.FC = () => {
                             />
                             <FormInput
                                 id="depth"
+                                required
                                 label="Pontal"
                                 type="number"
                                 values={projectParams}
@@ -133,6 +140,7 @@ const CreateProject: React.FC = () => {
                             />
                             <FormInput
                                 id="draft"
+                                required
                                 label="Calado de Projeto"
                                 type="number"
                                 values={projectParams}
@@ -141,12 +149,24 @@ const CreateProject: React.FC = () => {
                         </Box>
                     </Box>
 
+                    <Divider className={classes.divider} />
+
                     <Box className={classes.buttonsBox}>
-                        <Button disabled={start} type="submit">
+                        <Button
+                            disabled={start}
+                            variant="contained"
+                            type="submit"
+                            classes={{root: classes.buttonSubmit}}
+                        >
                             Criar
                         </Button>
 
-                        <Button disabled={start} onClick={closeModal}>
+                        <Button
+                            disabled={start}
+                            variant="contained"
+                            onClick={closeModal}
+                            classes={{root: classes.buttonCancel}}
+                        >
                             Cancelar
                         </Button>
                     </Box>
@@ -161,6 +181,7 @@ export default CreateProject;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles<string, {height: number; width: number}>({
         button: {height: '48px'},
+        typography: {fontWeight: 'bold', fontSize: theme.typography.fontSize * 1.5},
         paper: {
             padding: theme.spacing(2),
             position: 'absolute',
@@ -173,6 +194,10 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             justifyContent: 'space-between',
         },
+        title: {
+            fontWeight: 'bold',
+            fontSize: theme.typography.fontSize * 1.2,
+        },
         boxContainer: {
             width: '100%',
             display: 'flex',
@@ -183,13 +208,33 @@ const useStyles = makeStyles((theme: Theme) =>
             height: '100%',
             minWidth: '300px',
             padding: `0px ${theme.spacing(2)}px`,
-            maxWidth: '500px',
+        },
+        divider: {
+            width: '100%',
+            margin: `${theme.spacing(1)}px 0px `,
         },
         buttonsBox: {
             width: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-around',
+            padding: `0px ${theme.spacing(3)}px`,
+        },
+        buttonSubmit: {
+            color: '#fff',
+            background: theme.palette.success.main,
+            '&:hover': {
+                background: theme.palette.success.dark,
+            },
+            fontWeight: 'bold',
+        },
+        buttonCancel: {
+            color: '#fff',
+            background: theme.palette.error.main,
+            '&:hover': {
+                background: theme.palette.error.dark,
+            },
+            fontWeight: 'bold',
         },
     })
 );

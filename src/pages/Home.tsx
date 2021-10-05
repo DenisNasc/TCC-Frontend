@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Box} from '@material-ui/core';
+import {Box, Grid} from '@material-ui/core';
 
 import DefaultTemplate from 'styles/templates';
 
@@ -19,14 +19,22 @@ const Home: React.FC = () => {
 
     return (
         <DefaultTemplate title="home">
-            <>
-                <Box className={classes.box}>
+            <Grid container item>
+                <Grid
+                    container
+                    item
+                    justifyContent="space-between"
+                    xs={12}
+                    className={classes.grid1}
+                >
                     <SearchFIeld />
-
                     <CreateNewProject />
-                </Box>
-                <ProjectsTable rows={projects} />
-            </>
+                </Grid>
+
+                <Grid container item xs={12}>
+                    <ProjectsTable rows={projects} />
+                </Grid>
+            </Grid>
         </DefaultTemplate>
     );
 };
@@ -35,19 +43,6 @@ export default Home;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        box: {display: 'flex', justifyContent: 'space-between'},
-        gridContainer: {
-            height: `calc(100vh - 60px)`,
-        },
-        grid1: {
-            height: '100%',
-            minHeight: '0px',
-        },
-
-        grid2: {
-            padding: theme.spacing(3),
-            height: '100%',
-        },
-        table: {},
+        grid1: {marginBottom: theme.spacing(3)},
     })
 );

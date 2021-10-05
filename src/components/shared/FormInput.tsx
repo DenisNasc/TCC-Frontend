@@ -63,7 +63,7 @@ const useStylesInputLabelProps = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             backgroundColor: 'none',
-            color: theme.palette.getContrastText(theme.palette.background.paper),
+            color: theme.palette.primary.main,
         },
         focused: {},
     })
@@ -74,7 +74,7 @@ const useStylesInputProps = makeStyles((theme: Theme) =>
         root: {
             overflow: 'hidden',
             transition: theme.transitions.create(['border-color', 'box-shadow']),
-            color: theme.palette.getContrastText(theme.palette.background.paper),
+            fontWeight: 'bold',
         },
 
         focused: {},

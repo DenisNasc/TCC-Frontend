@@ -13,41 +13,13 @@ import {
 const createData = (date: string, name: string, description: string) => ({date, name, description});
 
 const newsRows = [
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
-    createData(
-        '21/09/2021',
-        'Melhoria na interface gráfica',
-        'A interface gráfica do não sei oque foi aprimorada'
-    ),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
 ];
 
 const NewsTable: React.FC = () => {

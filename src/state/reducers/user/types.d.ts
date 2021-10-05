@@ -10,6 +10,7 @@ export type TypeProject = {
     lengthOverall: number;
     lengthPerpendiculars: number;
     breadth: number;
+    depth: number;
     draft: number;
 
     updatedAt: string;

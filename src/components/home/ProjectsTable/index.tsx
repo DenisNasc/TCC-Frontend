@@ -28,7 +28,7 @@ const ProjectsTable: React.FC<Props> = ({rows}) => {
         <TableContainer component={Paper} className={classes.tableContainer}>
             <Table>
                 <Head />
-                <TableBody className={classes.tableBody}>
+                <TableBody>
                     <Body filter={filter} rows={rows} page={page} rowsPerPage={rowsPerPage} />
                 </TableBody>
 
@@ -53,10 +53,7 @@ export default ProjectsTable;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         tableContainer: {
-            maxHeight: '600px',
             overflowY: 'auto',
-            color: '#fff',
         },
-        tableBody: {},
     })
 );

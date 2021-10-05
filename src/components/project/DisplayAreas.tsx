@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
-import {Box} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 import CardItem from 'components/project/CardItem';
 
 import useReduxStore from 'hooks/useReduxStore';
@@ -10,15 +10,15 @@ import useGetStations from './hooks/useGetStationsCoordinates';
 
 const cardsList = [
     {
-        title: 'Tabela de Cotas',
+        title: 'TABELA DE COTAS',
         description:
-            'A descriminação matemática da embarcação, a partir da interseção das linhas de referência: linha de base, linha de centro, perpendicular de ré',
+            "A descriminação matemática da embarcação, a partir da interseção das curvas de referência: balizas, linhas do alto, linhas d'água",
         pathRedirect: 'tabela-cotas',
     },
     {
-        title: 'Curvas Hidrostáticas',
+        title: 'CURVAS HIDROSTÁTICAS',
         description:
-            'O desenho detalhado de todos os componentes da embarcação, conforme as determinações da NORMAM/DPC',
+            'Características da embarcação quando submersa na água, conforme as determinações da NORMAM/DPC',
         pathRedirect: 'curvas-hidrostaticas',
     },
 ];
@@ -34,7 +34,7 @@ const DisplayAreas: React.FC = () => {
     useGetStations({userID, projectID});
 
     return (
-        <Box className={classes.box}>
+        <Grid container justifyContent="center" alignItems="flex-start">
             {cardsList.length ? (
                 cardsList.map(e => (
                     <CardItem
@@ -48,7 +48,7 @@ const DisplayAreas: React.FC = () => {
             ) : (
                 <div>OI</div>
             )}
-        </Box>
+        </Grid>
     );
 };
 
@@ -57,8 +57,6 @@ export default DisplayAreas;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         box: {
-            height: '100%',
-            width: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

@@ -2,15 +2,19 @@ import React from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 
+import useStore from 'hooks/useReduxStore';
+
 import DefaultTemplate from 'styles/templates';
 
 import DisplayAreas from 'components/project/DisplayAreas';
 
 const Project: React.FC = () => {
     const classes = useStyles();
-
+    const {
+        currentProject: {name},
+    } = useStore();
     return (
-        <DefaultTemplate title="projects">
+        <DefaultTemplate title={`Projects - ${name}`}>
             <DisplayAreas />
         </DefaultTemplate>
     );

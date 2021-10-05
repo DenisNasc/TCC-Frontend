@@ -23,6 +23,7 @@ const initialState: TypeCurrentProjectState = {
     lengthPerpendiculars: 0,
     breadth: 0,
     draft: 0,
+    depth: 0,
 
     stations: [],
 

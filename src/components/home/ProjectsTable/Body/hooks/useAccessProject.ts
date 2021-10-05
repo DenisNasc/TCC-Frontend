@@ -16,7 +16,7 @@ interface HookParams {
     projectName: string;
 }
 
-const useDeleteProject = (
+const useAccessProject = (
     params: HookParams,
     states: TypeFetchStates,
     handleStates: TypeHandleState
@@ -62,4 +62,4 @@ const useDeleteProject = (
     }, [start]);
 };
 
-export default useDeleteProject;
+export default useAccessProject;

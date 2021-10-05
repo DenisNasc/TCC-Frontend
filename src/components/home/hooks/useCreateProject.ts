@@ -4,7 +4,6 @@ import {useDispatch} from 'react-redux';
 import {axiosDevInstance} from 'fetch/axiosInstances';
 
 import {USER_UPDATE_PROJECTS} from 'state/actions/user';
-import {projectParamsInitialState} from 'components/home/CreateProject';
 
 import type {TypeFetchStates, TypeHandleState, TypeHandleHookParams} from 'types/hooks';
 import type {
@@ -16,6 +15,16 @@ import type {
 interface HookParams extends ParamsPostProjects {
     userID: string;
 }
+
+const projectParamsInitialState = {
+    breadth: null,
+    draft: null,
+    depth: null,
+    lengthOverall: null,
+    lengthPerpendiculars: null,
+    shipyard: '',
+    name: '',
+};
 
 const useCreateProject = (
     params: HookParams,
@@ -44,7 +53,7 @@ const useCreateProject = (
                 const payload = {projects};
 
                 dispatch({type: USER_UPDATE_PROJECTS, payload});
-                handleParams(projectParamsInitialState);
+                handleParams(({engineer}) => ({...projectParamsInitialState, engineer}));
                 handleStates({start: false, success: true, fail: false});
             } catch (error) {
                 handleStates({start: false, success: false, fail: true});

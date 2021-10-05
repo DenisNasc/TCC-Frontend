@@ -24,11 +24,11 @@ export interface ResponsePostProjects extends ResponseDefault {
 
 export interface ParamsPostProjects {
     name: string;
-    lengthOverall: number;
-    lengthPerpendiculars: number;
-    breadth: number;
-    draft: number;
-    depth: number;
+    lengthOverall: number | null;
+    lengthPerpendiculars: number | null;
+    breadth: number | null;
+    draft: number | null;
+    depth: number | null;
     engineer?: string;
     shipyard?: string;
 }

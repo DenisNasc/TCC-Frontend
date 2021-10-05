@@ -10,20 +10,14 @@ interface Params {
     userID: string;
     projectID: string;
     stationID: string;
-    params: {
-        type: string;
-        transversal: number;
-        vertical: number;
-    };
+    coordinateID: string;
 }
 
-const useCreateCoordinate = (
-    {userID, projectID, stationID, params}: Params,
+const useEditCoordinate = (
+    {userID, projectID, stationID, coordinateID}: Params,
     states: TypeFetchStates,
     handleStates: TypeHandleState,
-    handleParams: (
-        value: React.SetStateAction<{type: string; transversal: number; vertical: number}>
-    ) => void
+    params: any
 ): void => {
     const dispatch = useDispatch();
     const axiosDev = useCallback(axiosDevInstance(), []);
@@ -33,13 +27,15 @@ const useCreateCoordinate = (
     useEffect(() => {
         if (!start) return;
 
-        const createCoordinate = async () => {
+        const editCoordinate = async () => {
             try {
-                const url = `/users/${userID}/projects/${projectID}/stations/${stationID}/coordinates`;
                 const {
                     data: {coordinates},
-                } = await axiosDev.post(url, params);
-
+                } = await axiosDev.put(
+                    `/users/${userID}/projects/${projectID}/stations/${stationID}/coordinates/${coordinateID}`,
+                    {...params}
+                );
+                console.log(coordinates);
                 const payload = {coordinates: [...coordinates]};
                 dispatch({type: CURRENT_PROJECT_ADD_CORDINATE, payload});
 
@@ -48,24 +44,18 @@ const useCreateCoordinate = (
                     success: true,
                     fail: false,
                 });
-
-                handleParams({
-                    type: '',
-                    transversal: 0,
-                    vertical: 0,
-                });
             } catch (error) {
+                console.log(error.message);
                 handleStates({
                     start: false,
                     success: false,
                     fail: true,
                 });
-                console.log(error.message);
             }
         };
 
-        createCoordinate();
-    }, [start]);
+        editCoordinate();
+    });
 };
 
-export default useCreateCoordinate;
+export default useEditCoordinate;

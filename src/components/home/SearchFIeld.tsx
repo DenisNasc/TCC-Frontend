@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             padding: '2px 4px',
-            marginBottom: theme.spacing(3),
+
             display: 'flex',
             alignItems: 'center',
             width: '100%',

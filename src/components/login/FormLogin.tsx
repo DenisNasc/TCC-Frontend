@@ -44,7 +44,7 @@ const FormLogin: React.FC = () => {
         <>
             {id && <Redirect to="/home" />}
             <Paper className={classes.form} component="form" elevation={0} onSubmit={handleLogin}>
-                <Typography className={classes.typography}>SIGN IN</Typography>
+                <Typography className={classes.typography}>ENTRAR</Typography>
                 <Divider className={classes.divider} />
                 <FormInput
                     id="email"

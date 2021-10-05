@@ -31,6 +31,7 @@ export type TypeCurrentProjectState = {
     lengthOverall: number;
     lengthPerpendiculars: number;
     breadth: number;
+    depth: number;
     draft: number;
 
     stations: TypeStation[];

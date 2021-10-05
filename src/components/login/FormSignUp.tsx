@@ -42,7 +42,7 @@ const FormSignup: React.FC = () => {
         <>
             {id && <Redirect to="/home" />}
             <Paper className={classes.form} component="form" elevation={0} onSubmit={handleSubmit}>
-                <Typography className={classes.typography}>SIGN UP</Typography>
+                <Typography className={classes.typography}>CADASTRAR</Typography>
                 <Divider className={classes.divider} />
                 <FormInput
                     id="name"

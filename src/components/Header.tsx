@@ -1,5 +1,6 @@
 import React, {useState, useCallback} from 'react';
 
+import {useDispatch} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
@@ -8,6 +9,7 @@ import {Brightness7 as IconBrightness7, Brightness4 as IconBrightness4} from '@m
 
 import useReduxStore from 'hooks/useReduxStore';
 import useLogout from 'hooks/header/useLogout';
+import {APP_CHANGE_THEME} from 'state/actions/app';
 
 const Header: React.FC = () => {
     const [logoutFetchStates, setLogoutFetchStates] = useState({
@@ -18,6 +20,7 @@ const Header: React.FC = () => {
 
     const classes = useStyles();
 
+    const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams<{userId: string}>();
 
@@ -42,17 +45,18 @@ const Header: React.FC = () => {
     }, []);
 
     return (
-        <Paper className={classes.paper}>
+        <Paper classes={{root: classes.paper}}>
             <Typography>STATIONS - Versão ALFA</Typography>
+
             <nav className={classes.nav}>
-                <IconButton onClick={handleTheme}>
+                <IconButton classes={{root: classes.iconButtonRoot}} onClick={handleTheme}>
                     {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}
                 </IconButton>
                 {id && (
                     <>
                         <Divider orientation="vertical" flexItem className={classes.divider} />
                         <Avatar className={classes.avatar} onClick={handleAvatarClick} />
-                        <Button className={classes.logoutButton} onClick={handleLogout}>
+                        <Button classes={{root: classes.logoutButtonRoot}} onClick={handleLogout}>
                             LOGOUT
                         </Button>
                     </>
@@ -67,16 +71,15 @@ export default Header;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         paper: {
-            width: '100vw',
+            width: '100%',
             height: '60px',
+            padding: `0px ${theme.spacing(3)}px`,
             margin: '0px',
-            padding: '0px 24px',
-            border: 'none',
-            borderRadius: '0px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            color: theme.palette.getContrastText(theme.palette.background.paper),
+            background: '#1E88E5',
+            color: theme.palette.getContrastText('#1E88E5'),
         },
         nav: {
             display: 'flex',
@@ -89,10 +92,18 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         avatar: {
             marginLeft: theme.spacing(3),
+            '&:hover': {
+                cursor: 'pointer',
+            },
         },
-        logoutButton: {
-            color: theme.palette.getContrastText(theme.palette.error.main),
-            backgroundColor: theme.palette.error.main,
+        iconButtonRoot: {},
+        logoutButtonRoot: {
+            color: '#fff',
+            background: theme.palette.error.main,
+            '&:hover': {
+                background: theme.palette.error.dark,
+            },
+            fontWeight: 'bold',
             marginLeft: theme.spacing(3),
         },
     })

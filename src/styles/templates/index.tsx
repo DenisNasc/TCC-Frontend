@@ -5,7 +5,7 @@ import Helmet from 'components/Helmet';
 import Header from 'components/Header';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Button, Box, Breadcrumbs, Grid} from '@material-ui/core';
+import {Breadcrumbs, Button, Grid} from '@material-ui/core';
 
 import LateralMenu from 'components/LateralMenu';
 
@@ -16,7 +16,9 @@ interface PropsDefaultTemplate {
 type TypePathname = {href: string; title: string};
 
 const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
-    const [pathnameList, setPathnameList] = useState<TypePathname[]>([{href: '/home', title: 'Home'}]);
+    const [pathnameList, setPathnameList] = useState<TypePathname[]>([
+        {href: '/home', title: 'Home'},
+    ]);
 
     const location = useLocation();
     const history = useHistory();
@@ -33,7 +35,10 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
         pathnameArray.shift();
 
         const formatedPathnameArray = pathnameArray.map((e, i, arr) => {
-            const href = `/${arr.slice(0, i + 1).reduce((initial, value) => `${initial}/${value}`)}`.replace(/ /g, '-').toLocaleLowerCase().trim();
+            const href = `/${arr.slice(0, i + 1).reduce((initial, value) => `${initial}/${value}`)}`
+                .replace(/ /g, '-')
+                .toLocaleLowerCase()
+                .trim();
 
             return {
                 title: `${e.charAt(0).toUpperCase() + e.slice(1)}`.replace(/-/g, ' ').trim(),
@@ -53,27 +58,49 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
     return (
         <>
             <Helmet title={title} />
-            <Header />
 
-            <Grid container direction="row" justify="center" alignItems="center" className={classes.gridContainer}>
-                <Grid container item xs={2} justify="flex-start" alignItems="center" className={classes.grid1}>
+            <Grid container direction="row" xs={12} justify="center" alignItems="flex-start">
+                <Grid container item justifyContent="center" alignItems="center" xs={12}>
+                    <Header />
+                </Grid>
+
+                <Grid container item xs={12} lg={2}>
                     <LateralMenu />
                 </Grid>
-                <Grid container item xs={10} justify="flex-start" alignItems="center" className={classes.grid2}>
-                    <Box className={classes.box}>
-                        <Breadcrumbs className={classes.breadcrumbs}>
-                            {pathnameList.map(e => {
-                                const disabled = e.href === location.pathname;
 
-                                return (
-                                    <Button key={e.href} component="button" disabled={disabled} onClick={handleLink(e.href)}>
-                                        {e.title}
-                                    </Button>
-                                );
-                            })}
-                        </Breadcrumbs>
-                        {children}
-                    </Box>
+                <Grid
+                    container
+                    item
+                    xs={12}
+                    lg={10}
+                    justify="center"
+                    alignItems="center"
+                    className={classes.container}
+                >
+                    <Grid container item>
+                        <Grid container item xs={12}>
+                            <Breadcrumbs className={classes.breadcrumbs}>
+                                {pathnameList.map(e => {
+                                    const disabled = e.href === location.pathname;
+
+                                    return (
+                                        <Button
+                                            key={e.href}
+                                            component="button"
+                                            disabled={disabled}
+                                            onClick={handleLink(e.href)}
+                                        >
+                                            {e.title}
+                                        </Button>
+                                    );
+                                })}
+                            </Breadcrumbs>
+                        </Grid>
+
+                        <Grid container item xs={12}>
+                            {children}
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
         </>
@@ -84,26 +111,7 @@ export default DefaultTemplate;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        gridContainer: {
-            height: 'calc(100vh - 60px)',
-            width: '100vw',
-        },
-        grid1: {
-            height: '100%',
-            width: '100%',
-        },
-        grid2: {
-            padding: theme.spacing(3),
-            height: '100%',
-            width: '100%',
-        },
-        box: {
-            height: '100%',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-        },
+        container: {padding: theme.spacing(3)},
         breadcrumbs: {marginBottom: theme.spacing(3)},
     })
 );
