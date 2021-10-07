@@ -48,13 +48,14 @@ export default LateralMenu;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
-            height: '100%',
+            height: 'calc(100vh - 260px)',
             width: '100%',
             margin: '0px',
             padding: '0px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'flex-start',
+            borderRight: '1px solid rgb(218, 220, 224)',
         },
         listItem: {
             width: '100%',

@@ -1,7 +1,7 @@
 import React, {useState, useCallback} from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Button, Divider, Modal, Paper, Typography, IconButton, Box} from '@material-ui/core';
+import {Button, Divider, Modal, Paper, Typography, IconButton, Box, Grid} from '@material-ui/core';
 import {Edit as IconEdit, Delete as IconDelete} from '@material-ui/icons';
 
 import FormInput from 'components/shared/FormInput';
@@ -14,8 +14,9 @@ interface Props {
     projectID: string;
     stationID: string;
     coordinateID: string;
-
-    type: string | number | undefined;
+    stationName: string;
+    type?: string;
+    order?: number;
     longitudinal: string | number;
     transversal: string | number;
     vertical: string | number;
@@ -26,7 +27,9 @@ const StationCoordinate: React.FC<Props> = ({
     projectID,
     stationID,
     coordinateID,
+    stationName,
     type,
+    order,
     longitudinal,
     transversal,
     vertical,
@@ -67,40 +70,41 @@ const StationCoordinate: React.FC<Props> = ({
 
     return (
         <>
-            <Box className={classes.boxType}>
-                <Typography className={classes.typography}>Tipo</Typography>
-                <Typography className={classes.typography}>{type || '1'}</Typography>
-            </Box>
+            <Grid container xs={12} classes={{root: classes.container}}>
+                <Grid container item justifyContent="space-around" alignItems="center" xs={10}>
+                    <Box className={classes.listItemBoxRoot}>
+                        <Typography className={classes.title}>TIPO</Typography>
+                        <Typography>{(type || '-').toUpperCase()}</Typography>
+                    </Box>
+                    <Box className={classes.listItemBoxRoot}>
+                        <Typography className={classes.title}>ORDEM</Typography>
+                        <Typography>{order}</Typography>
+                    </Box>
+                    <Box className={classes.listItemBoxRoot}>
+                        <Typography className={classes.title}>LONGITUDINAL</Typography>
+                        <Typography>{longitudinal}</Typography>
+                    </Box>
 
-            <Divider orientation="vertical" flexItem />
+                    <Box className={classes.listItemBoxRoot}>
+                        <Typography className={classes.title}>TRANSVERSAL</Typography>
+                        <Typography>{transversal}</Typography>
+                    </Box>
 
-            <Box className={classes.boxCoordinates}>
-                <Box className={classes.listItemBoxRoot}>
-                    <Typography className={classes.typography}>Longitudinal</Typography>
-                    <Typography className={classes.typography}>{longitudinal}</Typography>
-                </Box>
+                    <Box className={classes.listItemBoxRoot}>
+                        <Typography className={classes.title}>VERTICAL</Typography>
+                        <Typography>{vertical}</Typography>
+                    </Box>
+                </Grid>
 
-                <Box className={classes.listItemBoxRoot}>
-                    <Typography className={classes.typography}>Transversal</Typography>
-                    <Typography className={classes.typography}>{transversal}</Typography>
-                </Box>
-
-                <Box className={classes.listItemBoxRoot}>
-                    <Typography className={classes.typography}>Vertical</Typography>
-                    <Typography className={classes.typography}>{vertical}</Typography>
-                </Box>
-            </Box>
-
-            <Divider orientation="vertical" flexItem />
-
-            <Box className={classes.boxActions}>
-                <IconButton onClick={openModal}>
-                    <IconEdit />
-                </IconButton>
-                <IconButton onClick={handleDeleteCoordinate}>
-                    <IconDelete />
-                </IconButton>
-            </Box>
+                <Grid container item xs={2}>
+                    <IconButton onClick={openModal}>
+                        <IconEdit />
+                    </IconButton>
+                    <IconButton onClick={handleDeleteCoordinate}>
+                        <IconDelete />
+                    </IconButton>
+                </Grid>
+            </Grid>
 
             <Modal open={isOpen} onClose={closeModal}>
                 <Paper
@@ -109,28 +113,29 @@ const StationCoordinate: React.FC<Props> = ({
                     onSubmit={handleEditCoordinate}
                     elevation={0}
                 >
-                    <Typography className={classes.typography}>EDITAR COORDENADAS</Typography>
+                    <Typography className={classes.title}>
+                        {`EDITAR COORDENADA ${order} DA BALIZA ${stationName}`}
+                    </Typography>
 
-                    <Box className={classes.boxContainer}>
-                        <Box className={classes.boxColumn}>
-                            <Typography className={classes.title}>INFORMAÇÕES GERAIS</Typography>
-                            <FormInput
-                                id="transversal"
-                                label="Transversal"
-                                type="number"
-                                values={coordinateParams}
-                                setValue={setCoordinateParams}
-                                required
-                            />
-                            <FormInput
-                                id="vertical"
-                                label="Vertical"
-                                type="number"
-                                values={coordinateParams}
-                                setValue={setCoordinateParams}
-                                required
-                            />
-                        </Box>
+                    <Divider className={classes.divider} />
+
+                    <Box className={classes.boxColumn}>
+                        <FormInput
+                            id="transversal"
+                            label="Transversal"
+                            type="number"
+                            values={coordinateParams}
+                            setValue={setCoordinateParams}
+                            required
+                        />
+                        <FormInput
+                            id="vertical"
+                            label="Vertical"
+                            type="number"
+                            values={coordinateParams}
+                            setValue={setCoordinateParams}
+                            required
+                        />
                     </Box>
 
                     <Divider className={classes.divider} />
@@ -164,6 +169,8 @@ export default StationCoordinate;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles<string, {height: number; width: number}>({
+        container: {background: 'white'},
+
         paper: {
             padding: theme.spacing(2),
             position: 'absolute',
@@ -176,23 +183,9 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             justifyContent: 'space-between',
         },
-        station: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-        },
-        name: {fontWeight: 'bold'},
-        longitudinal: {fontWeight: 'bold'},
-        collapse: {
-            maxHeight: '284px',
-            overflowY: 'auto',
-        },
-        listItem: {
-            maxHeight: '72px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            background: '#607D8B',
-        },
+
+        divider: {height: '1px', width: '100%'},
+
         listItemBoxRoot: {
             minHeight: '0px',
             height: '48px',
@@ -202,27 +195,25 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             justifyContent: 'space-between',
         },
-        boxType: {
-            width: '60px',
-            padding: `0px ${theme.spacing(2)}px`,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+        buttonsBox: {width: '100%', display: 'flex', justifyContent: 'space-around'},
+        buttonSubmit: {
+            color: '#FFF',
+            fontWeight: 'bold',
+            background: theme.palette.success.main,
+            '&:hover': {
+                background: theme.palette.success.dark,
+            },
         },
-        boxCoordinates: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            background: 'none',
-            width: '70%',
+        buttonCancel: {
+            color: '#FFF',
+            fontWeight: 'bold',
+            background: theme.palette.error.main,
+            '&:hover': {
+                background: theme.palette.error.dark,
+            },
         },
-        boxActions: {
-            display: 'flex',
-            width: '20%',
-        },
-        typography: {
-            fontSize: '14px',
-            color: '#000',
+        title: {
+            fontWeight: 'bold',
         },
     })
 );

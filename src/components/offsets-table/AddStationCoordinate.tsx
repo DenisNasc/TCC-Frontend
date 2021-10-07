@@ -1,6 +1,14 @@
 import React, {useState, useCallback} from 'react';
 
-import {Box, Divider, IconButton, Typography, TextField} from '@material-ui/core';
+import {
+    Grid,
+    Box,
+    Divider,
+    IconButton,
+    Typography,
+    TextField,
+    NativeSelect,
+} from '@material-ui/core';
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Add as IconAdd, Clear as IconClear} from '@material-ui/icons';
 
@@ -14,6 +22,11 @@ interface Props {
     stationID: string;
     longitudinal: number;
 }
+type TypeCoordinate = {
+    type: string;
+    transversal: number;
+    vertical: number;
+};
 
 const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, longitudinal}) => {
     const [fetchState, setFetchState] = useState<TypeFetchStates>({
@@ -21,7 +34,7 @@ const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, lo
         success: false,
         fail: false,
     });
-    const [state, setState] = useState<{type: string; transversal: number; vertical: number}>({
+    const [state, setState] = useState<TypeCoordinate>({
         type: '',
         transversal: 0,
         vertical: 0,
@@ -45,6 +58,11 @@ const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, lo
         setState(prevState => ({...prevState, [key]: event.target.value}));
     };
 
+    const handleSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        event.preventDefault();
+        setState(prevState => ({...prevState, type: event.target.value}));
+    };
+
     const handleCreateCoordinate = useCallback(
         () => setFetchState({start: true, success: false, fail: false}),
         []
@@ -58,26 +76,32 @@ const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, lo
     );
 
     return (
-        <Box className={classes.container}>
-            <Box className={classes.box}>
-                <Typography className={classes.typography}>Tipo</Typography>
-                <TextField
-                    className={classes.textField}
-                    onChange={handleStates('type')}
-                    value={state.type}
-                />
-            </Box>
+        <Grid container xs={12} classes={{root: classes.container}}>
+            <Grid
+                container
+                item
+                direction="column"
+                justifyContent="space-between"
+                alignItems="center"
+                xs={2}
+            >
+                <Typography className={classes.type}>TIPO</Typography>
+                <NativeSelect value={state.type} onChange={handleSelect}>
+                    <option aria-label="None" value="-" />
+                    <option value="start">Iníco</option>
+                    <option value="deck">Convés</option>
+                    <option value="end">Final</option>
+                </NativeSelect>
+            </Grid>
 
-            <Divider orientation="vertical" flexItem />
-
-            <Box className={classes.boxCoordinates}>
+            <Grid container item justifyContent="space-around" alignItems="center" xs={8}>
                 <Box className={classes.box}>
-                    <Typography className={classes.typography}>Longitudinal</Typography>
+                    <Typography className={classes.type}>LONGITUDINAL</Typography>
                     <Typography>{longitudinal}</Typography>
                 </Box>
 
                 <Box className={classes.box}>
-                    <Typography className={classes.typography}>Transversal</Typography>
+                    <Typography className={classes.type}>TRANSVERSAL</Typography>
                     <TextField
                         className={classes.textField}
                         onChange={handleStates('transversal')}
@@ -87,7 +111,7 @@ const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, lo
                 </Box>
 
                 <Box className={classes.box}>
-                    <Typography className={classes.typography}>Vertical</Typography>
+                    <Typography className={classes.type}>VERTICAL</Typography>
                     <TextField
                         className={classes.textField}
                         onChange={handleStates('vertical')}
@@ -95,19 +119,17 @@ const AddStationCoordinate: React.FC<Props> = ({userID, projectID, stationID, lo
                         value={state.vertical}
                     />
                 </Box>
-            </Box>
+            </Grid>
 
-            <Divider orientation="vertical" flexItem />
-
-            <Box className={classes.actions}>
+            <Grid container item xs={2}>
                 <IconButton onClick={handleCreateCoordinate}>
                     <IconAdd />
                 </IconButton>
                 <IconButton onClick={handleClearState}>
                     <IconClear />
                 </IconButton>
-            </Box>
-        </Box>
+            </Grid>
+        </Grid>
     );
 };
 
@@ -116,11 +138,8 @@ export default AddStationCoordinate;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
-            display: 'flex',
-            alignItems: 'center',
-            background: '#9E9E9E',
-            padding: '6px 0px',
-            justifyContent: 'space-between',
+            background: '#E0E0E0',
+            padding: `${theme.spacing(1)}px 0px`,
         },
         box: {
             minHeight: '48px',
@@ -130,17 +149,12 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             justifyContent: 'space-between',
         },
-        boxCoordinates: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            background: 'none',
-            width: '70%',
-        },
+
         textField: {maxWidth: '50px'},
-        actions: {display: 'flex', width: '20%'},
-        typography: {
-            fontSize: '14px',
-            color: '#fff',
+
+        type: {
+            fontWeight: 'bold',
+            color: theme.palette.getContrastText('#9E9E9E'),
         },
     })
 );

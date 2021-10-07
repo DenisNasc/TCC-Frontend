@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Avatar, Button, Divider, IconButton, Paper, Typography} from '@material-ui/core';
+import {Avatar, Grid, Button, Divider, IconButton, Typography} from '@material-ui/core';
 import {Brightness7 as IconBrightness7, Brightness4 as IconBrightness4} from '@material-ui/icons';
 
 import useReduxStore from 'hooks/useReduxStore';
@@ -45,24 +45,39 @@ const Header: React.FC = () => {
     }, []);
 
     return (
-        <Paper classes={{root: classes.paper}}>
-            <Typography>STATIONS - Versão ALFA</Typography>
+        <Grid
+            container
+            component="header"
+            justifyContent="space-between"
+            alignItems="center"
+            xs={12}
+            classes={{root: classes.container}}
+        >
+            <Grid container item justifyContent="flex-start" xs={6}>
+                <Typography classes={{root: classes.logo}}>STATIONS - Versão ALFA</Typography>
+            </Grid>
 
-            <nav className={classes.nav}>
-                <IconButton classes={{root: classes.iconButtonRoot}} onClick={handleTheme}>
-                    {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}
-                </IconButton>
-                {id && (
-                    <>
-                        <Divider orientation="vertical" flexItem className={classes.divider} />
-                        <Avatar className={classes.avatar} onClick={handleAvatarClick} />
-                        <Button classes={{root: classes.logoutButtonRoot}} onClick={handleLogout}>
-                            LOGOUT
-                        </Button>
-                    </>
-                )}
-            </nav>
-        </Paper>
+            <Grid container item justifyContent="flex-end" xs={6}>
+                <nav className={classes.nav}>
+                    <IconButton classes={{root: classes.iconButtonRoot}} onClick={handleTheme}>
+                        {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}
+                    </IconButton>
+                    {id && (
+                        <>
+                            <Divider orientation="vertical" flexItem className={classes.divider} />
+                            <Avatar className={classes.avatar} onClick={handleAvatarClick} />
+                            <Button
+                                classes={{root: classes.logoutButtonRoot}}
+                                variant="outlined"
+                                onClick={handleLogout}
+                            >
+                                LOGOUT
+                            </Button>
+                        </>
+                    )}
+                </nav>
+            </Grid>
+        </Grid>
     );
 };
 
@@ -70,17 +85,13 @@ export default Header;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        paper: {
-            width: '100%',
+        container: {
             height: '60px',
-            padding: `0px ${theme.spacing(3)}px`,
-            margin: '0px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            background: '#1E88E5',
-            color: theme.palette.getContrastText('#1E88E5'),
+            padding: `0px ${theme.spacing(8)}px`,
+            borderBottom: '1px solid rgb(218, 220, 224)',
+            position: 'sticky',
         },
+        logo: {fontWeight: 'bold'},
         nav: {
             display: 'flex',
             alignItems: 'center',

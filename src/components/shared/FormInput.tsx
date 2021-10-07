@@ -74,7 +74,6 @@ const useStylesInputProps = makeStyles((theme: Theme) =>
         root: {
             overflow: 'hidden',
             transition: theme.transitions.create(['border-color', 'box-shadow']),
-            fontWeight: 'bold',
         },
 
         focused: {},

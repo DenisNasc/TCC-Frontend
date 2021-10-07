@@ -8,6 +8,7 @@ import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
 import {Breadcrumbs, Button, Grid} from '@material-ui/core';
 
 import LateralMenu from 'components/LateralMenu';
+import Footer from 'components/Footer';
 
 interface PropsDefaultTemplate {
     title: string;
@@ -59,7 +60,7 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
         <>
             <Helmet title={title} />
 
-            <Grid container direction="row" xs={12} justify="center" alignItems="flex-start">
+            <Grid container direction="row" xs={12} justify="space-between" alignItems="flex-start">
                 <Grid container item justifyContent="center" alignItems="center" xs={12}>
                     <Header />
                 </Grid>
@@ -103,6 +104,8 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
                     </Grid>
                 </Grid>
             </Grid>
+
+            <Footer />
         </>
     );
 };
@@ -111,7 +114,16 @@ export default DefaultTemplate;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {padding: theme.spacing(3)},
+        container: {padding: theme.spacing(3), maxHeight: 'calc(100vh - 260px)', overflowY: 'auto'},
         breadcrumbs: {marginBottom: theme.spacing(3)},
+        footer: {
+            background: 'rgb(48, 56, 70)',
+            color: theme.palette.getContrastText('rgb(48, 56, 70)'),
+            padding: theme.spacing(3),
+            position: 'absolute',
+            bottom: '0px',
+            height: '120px',
+            width: '100vw',
+        },
     })
 );

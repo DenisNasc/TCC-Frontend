@@ -2,7 +2,7 @@ import {createTheme} from '@material-ui/core/styles';
 
 export const theme = createTheme({
     typography: {
-        fontFamily: ['Cambria'].join(','),
+        fontFamily: ['Noto Sans', 'Cantarell'].join(','),
         fontSize: 14,
     },
     palette: {
@@ -13,12 +13,11 @@ export const theme = createTheme({
         },
 
         secondary: {
-            main: '#8D6E63',
-            contrastText: '#FFF',
+            main: 'rgb(95, 99, 104)',
         },
         background: {
-            paper: '#B0BEC5',
-            default: '#fff',
+            paper: 'rgb(235, 237, 240)',
+            default: 'rgb(255, 255, 255)',
         },
     },
 });

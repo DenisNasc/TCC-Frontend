@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 import {useTheme, Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {useMediaQuery, Button, Grid, Paper, Typography} from '@material-ui/core';
+import {useMediaQuery, Button, Grid, Paper, Typography, Link} from '@material-ui/core';
 
 import useReduxStore from 'hooks/useReduxStore';
 
@@ -10,6 +10,7 @@ import Header from 'components/Header';
 import FormLogin from 'components/login/FormLogin';
 import FormSignup from 'components/login/FormSignUp';
 import NewsTable from 'components/login/NewsTable';
+import Footer from 'components/Footer';
 
 const Login: React.FC = () => {
     const classes = useStyles();
@@ -45,8 +46,8 @@ const Login: React.FC = () => {
                         justifyContent="center"
                         xs={12}
                     >
-                        <Typography variant="h5" className={classes.title}>
-                            STATIONS: UM WEBAPP PARA PROJETOS NAVAIS
+                        <Typography variant="h5" classes={{root: classes.title}}>
+                            STATIONS - Uma WebApp para Projetos Navais
                         </Typography>
                         <Typography align="justify" className={classes.typography}>
                             Este é um software livre desenvolvido como trabalho de conclusão de
@@ -62,16 +63,16 @@ const Login: React.FC = () => {
                             Ademais, vale ressaltar que esta aplicação está em constante
                             desenvolvimento e todo o seu código fonte pode ser encontrado nos
                             seguintes repositórios do Github:{' '}
-                            <a href="https://github.com/DenisNasc/TCC-Frontend">FRONTEND</a> /{' '}
-                            <a href="https://github.com/DenisNasc/TCC-Backend">BACKEND</a>.
+                            <Link href="https://github.com/DenisNasc/TCC-Frontend">FRONTEND</Link> |{' '}
+                            <Link href="https://github.com/DenisNasc/TCC-Backend">BACKEND</Link>.
                         </Typography>
 
                         <Typography align="justify" className={classes.typography}>
-                            Para contato: devdenisbr@gmail.com
+                            Para contato: devdenisbr@gmail.com.
                         </Typography>
 
-                        <Typography variant="h5" className={classes.title}>
-                            NOVIDADES
+                        <Typography variant="h5" classes={{root: classes.titleNews}}>
+                            Novidades
                         </Typography>
                         <NewsTable />
                     </Grid>
@@ -90,7 +91,7 @@ const Login: React.FC = () => {
 
                         {login ? (
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="secondary"
                                 className={classes.button}
                                 onClick={handleClick}
@@ -99,7 +100,7 @@ const Login: React.FC = () => {
                             </Button>
                         ) : (
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="secondary"
                                 className={classes.button}
                                 onClick={handleClick}
@@ -110,6 +111,7 @@ const Login: React.FC = () => {
                     </Grid>
                 </Grid>
             </Grid>
+            <Footer />
         </>
     );
 };
@@ -126,10 +128,22 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         paper: {background: 'none'},
-        title: {fontWeight: 'bold'},
+        title: {
+            textAlign: 'left',
+            fontWeight: 'bold',
+            width: '100%',
+            marginBottom: theme.spacing(1),
+        },
+        titleNews: {
+            textAlign: 'center',
+            fontWeight: 'bold',
+            width: '100%',
+            marginBottom: theme.spacing(1),
+        },
         typography: {alignSelf: 'flex-start', marginBottom: theme.spacing(1)},
         button: {
             marginTop: theme.spacing(2),
+            fontWeight: 'bold',
         },
     })
 );

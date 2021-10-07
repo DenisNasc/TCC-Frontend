@@ -1,13 +1,13 @@
 import React from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Box, Grid} from '@material-ui/core';
+import {Grid} from '@material-ui/core';
 
 import DefaultTemplate from 'styles/templates';
 
 import useReduxStore from 'hooks/useReduxStore';
 
-import SearchFIeld from 'components/home/SearchFIeld';
+import SearchFIeld from 'components/home/SearchField';
 import CreateNewProject from 'components/home/CreateProject';
 import ProjectsTable from 'components/home/ProjectsTable';
 

@@ -1,63 +1,56 @@
 import React from 'react';
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {
-    Paper,
-    TableContainer,
-    Table,
-    TableHead,
-    TableBody,
-    TableRow,
-    TableCell,
-} from '@material-ui/core';
+import {Table, TableHead, TableBody, TableRow, TableCell, Paper} from '@material-ui/core';
 
-const createData = (date: string, name: string, description: string) => ({date, name, description});
+const createData = (date: string, name: string, description: string, version: string) => ({
+    date,
+    version,
+    name,
+    description,
+});
 
 const newsRows = [
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
-    createData('29/09/2021', 'EXEMPLO DE NOVIDADE', 'EXEMPLO DE DESCRIÇÃO'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
+    createData('29/09/2021', 'Exemplo de novidade', 'Exemplo de descrição', 'ALFA'),
 ];
 
 const NewsTable: React.FC = () => {
     const classes = useStyles();
 
     return (
-        <TableContainer component={Paper} className={classes.tableContainer}>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center" className={classes.tableCellHeader}>
-                            DATA
-                        </TableCell>
-                        <TableCell align="center" className={classes.tableCellHeader}>
-                            NOVIDADE
-                        </TableCell>
-                        <TableCell align="center" className={classes.tableCellHeader}>
-                            DESCRIÇÃO
-                        </TableCell>
+        <Table component={Paper} elevation={3} size="small" className={classes.table}>
+            <TableHead>
+                <TableRow>
+                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
+                        DATA
+                    </TableCell>
+                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
+                        VERSÃO
+                    </TableCell>
+                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
+                        NOVIDADES
+                    </TableCell>
+                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
+                        DESCRIÇÃO
+                    </TableCell>
+                </TableRow>
+            </TableHead>
+            <TableBody>
+                {newsRows.map(({date, version, name, description}) => (
+                    <TableRow key={name}>
+                        <TableCell align="center">{date}</TableCell>
+                        <TableCell align="center">{version}</TableCell>
+                        <TableCell align="center">{name}</TableCell>
+                        <TableCell align="center">{description}</TableCell>
                     </TableRow>
-                </TableHead>
-                <TableBody>
-                    {newsRows.map(({date, name, description}) => (
-                        <TableRow key={name}>
-                            <TableCell align="center" classes={{root: classes.tableCellRoot}}>
-                                {date}
-                            </TableCell>
-                            <TableCell align="center" classes={{root: classes.tableCellRoot}}>
-                                {name}
-                            </TableCell>
-                            <TableCell align="center" classes={{root: classes.tableCellRoot}}>
-                                {description}
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                ))}
+            </TableBody>
+        </Table>
     );
 };
 
@@ -65,17 +58,15 @@ export default NewsTable;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        tableContainer: {
+        table: {
             maxWidth: '800px',
             maxHeight: '430px',
             marginTop: theme.spacing(2),
             overflowY: 'auto',
         },
 
-        tableCellRoot: {
-            backgroundColor: theme.palette.background.default,
-        },
+        tableCellRoot: {},
 
-        tableCellHeader: {fontWeight: 'bold', fontSize: theme.typography.fontSize * 1.2},
+        tableCellHeader: {fontWeight: 'bold'},
     })
 );

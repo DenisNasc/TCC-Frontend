@@ -1,19 +1,21 @@
 import React, {useCallback, useState} from 'react';
 
 import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Grid, Button, Modal, List, Paper, Box, Fab, Typography, Tooltip} from '@material-ui/core';
+import {Divider, Grid, Button, Modal, List, Paper, Box, Typography} from '@material-ui/core';
 import {Add as IconAdd} from '@material-ui/icons';
 
 import DefaultTemplate from 'styles/templates';
 
-import ListItemStation from 'components/tabelaCotas/ListItemStation';
+import ListItemStation from 'components/offsets-table/ListItemStation';
 import FormInput from 'components/shared/FormInput';
 
 import useStore from 'hooks/useReduxStore';
-import useCreateStation from 'components/tabelaCotas/hooks/useCreateStation';
+import useCreateStation from 'components/offsets-table/hooks/useCreateStation';
 
 import type {TypeStation} from 'state/reducers/currentProject/types';
 import type {TypeFetchStates} from 'types/hooks';
+
+import ChartStation from 'components/offsets-table/ChartStation';
 
 export type TypeStationsIndex = {
     name: string;
@@ -73,22 +75,21 @@ const TabelaCotas: React.FC = () => {
     return (
         <DefaultTemplate title={`${name} - Tabela de Cotas`}>
             <>
-                <Grid
-                    container
-                    spacing={2}
-                    direction="column"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                    className={classes.container}
-                >
+                <Grid container spacing={2} justifyContent="flex-start" alignItems="center">
                     <Grid container item xs={6} direction="column">
-                        <Box className={classes.boxHeader}>
+                        <Grid
+                            container
+                            item
+                            justifyContent="space-between"
+                            xs={12}
+                            className={classes.leftGridHead}
+                        >
                             <Typography align="center" className={classes.title}>
                                 BALIZAS
                             </Typography>
 
                             <Button
-                                variant="contained"
+                                variant="outlined"
                                 color="secondary"
                                 className={classes.button}
                                 startIcon={<IconAdd />}
@@ -96,20 +97,22 @@ const TabelaCotas: React.FC = () => {
                             >
                                 CRIAR BALIZA
                             </Button>
-                        </Box>
+                        </Grid>
 
-                        <List component="nav" className={classes.list}>
-                            {stations
-                                .sort((a, b) => a.longitudinal - b.longitudinal)
-                                .map(station => (
-                                    <ListItemStation key={station.id} station={station} />
-                                ))}
-                        </List>
+                        <Grid container item xs={12}>
+                            <List component="nav" className={classes.list}>
+                                {stations
+                                    .sort((a, b) => a.longitudinal - b.longitudinal)
+                                    .map(station => (
+                                        <ListItemStation key={station.id} station={station} />
+                                    ))}
+                            </List>
+                        </Grid>
                     </Grid>
 
-                    {/* <Grid container item xs={6}>
-                        <Paper square>GRAFICO</Paper>
-                    </Grid> */}
+                    <Grid container item xs={6}>
+                        <ChartStation />
+                    </Grid>
                 </Grid>
 
                 <Modal open={isOpen} onClose={closeModal}>
@@ -119,7 +122,9 @@ const TabelaCotas: React.FC = () => {
                         onSubmit={handleCreateStation}
                         className={classes.modal}
                     >
-                        <Typography className={classes.title}>Criar Nova Baliza</Typography>
+                        <Typography className={classes.title}>CRIAR NOVA BALIZA</Typography>
+
+                        <Divider className={classes.divider} />
 
                         <FormInput
                             id="name"
@@ -139,12 +144,15 @@ const TabelaCotas: React.FC = () => {
                             required
                         />
 
+                        <Divider className={classes.divider} />
+
                         <Box className={classes.buttonsBox}>
                             <Button
                                 disabled={start}
                                 type="submit"
                                 variant="contained"
                                 color="primary"
+                                classes={{root: classes.buttonSubmit}}
                             >
                                 Criar
                             </Button>
@@ -154,6 +162,7 @@ const TabelaCotas: React.FC = () => {
                                 onClick={closeModal}
                                 variant="contained"
                                 color="secondary"
+                                classes={{root: classes.buttonCancel}}
                             >
                                 Cancelar
                             </Button>
@@ -176,6 +185,8 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: 'center',
             marginBottom: theme.spacing(2),
         },
+        divider: {height: '1px', width: '100%'},
+        leftGridHead: {marginBottom: theme.spacing(3)},
         modal: {
             position: 'absolute',
             height: ({height}) => `${height}px`,
@@ -183,18 +194,38 @@ const useStyles = makeStyles((theme: Theme) =>
             top: ({height}) => `calc(50vh - ${height / 2}px)`,
             left: ({width}) => `calc(50vw - ${width / 2}px)`,
             padding: theme.spacing(3),
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-between',
         },
         title: {
-            fontSize: theme.typography.fontSize * 1.5,
             fontWeight: 'bold',
         },
 
         list: {
-            maxHeight: 'calc(100vh - 60px - 48px - 36px - 24px - 56px - 16px)',
+            maxHeight: 'calc(100vh - 60px - 48px - 36px - 24px - 56px - 16px - 200px)',
+            width: '100%',
             overflowY: 'auto',
             backgroundColor: theme.palette.background.paper,
         },
 
-        buttonsBox: {display: 'flex', justifyContent: 'space-between', marginTop: theme.spacing(2)},
+        buttonsBox: {width: '100%', display: 'flex', justifyContent: 'space-around'},
+        buttonSubmit: {
+            color: '#FFF',
+            fontWeight: 'bold',
+            background: theme.palette.success.main,
+            '&:hover': {
+                background: theme.palette.success.dark,
+            },
+        },
+        buttonCancel: {
+            color: '#FFF',
+            fontWeight: 'bold',
+            background: theme.palette.error.main,
+            '&:hover': {
+                background: theme.palette.error.dark,
+            },
+        },
     })
 );

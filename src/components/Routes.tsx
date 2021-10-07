@@ -6,8 +6,8 @@ import useReduxStore from 'hooks/useReduxStore';
 import Login from 'pages/Login';
 import Home from 'pages/Home';
 import Project from 'pages/Project';
-import TabelaCotas from 'pages/TabelaCotas';
-import CurvasHidrostaticas from 'pages/CurvasHidrostaticas';
+import OffsetsTable from 'pages/OffsetsTable';
+import Hidrostatics from 'pages/Hidrostatics';
 
 const Routes: React.FC = () => {
     const {
@@ -28,10 +28,10 @@ const Routes: React.FC = () => {
                     <Project />
                 </Route>
                 <Route path="/:projectID/tabela-cotas" exact>
-                    <TabelaCotas />
+                    <OffsetsTable />
                 </Route>
                 <Route path="/:projectID/curvas-hidrostaticas" exact>
-                    <CurvasHidrostaticas />
+                    <Hidrostatics />
                 </Route>
             </Switch>
         </Router>

@@ -43,7 +43,13 @@ const FormLogin: React.FC = () => {
     return (
         <>
             {id && <Redirect to="/home" />}
-            <Paper className={classes.form} component="form" elevation={0} onSubmit={handleLogin}>
+            <Paper
+                square
+                component="form"
+                elevation={3}
+                onSubmit={handleLogin}
+                className={classes.form}
+            >
                 <Typography className={classes.typography}>ENTRAR</Typography>
                 <Divider className={classes.divider} />
                 <FormInput
@@ -75,8 +81,8 @@ const FormLogin: React.FC = () => {
                     disabled={fetchStates.start}
                     type="submit"
                     variant="contained"
-                    color="primary"
-                    className={classes.button}
+                    color="secondary"
+                    classes={{root: classes.button}}
                 >
                     Entrar
                 </Button>
@@ -90,7 +96,6 @@ export default FormLogin;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         form: {
-            borderRadius: '0px',
             width: '100%',
             maxWidth: '500px',
             display: 'flex',
@@ -107,6 +112,6 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'bold',
         },
         divider: {width: '100%', height: '1px'},
-        button: {marginTop: theme.spacing(2)},
+        button: {marginTop: theme.spacing(2), fontWeight: 'bold'},
     })
 );

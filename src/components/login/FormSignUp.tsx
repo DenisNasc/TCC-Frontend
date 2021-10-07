@@ -41,7 +41,13 @@ const FormSignup: React.FC = () => {
     return (
         <>
             {id && <Redirect to="/home" />}
-            <Paper className={classes.form} component="form" elevation={0} onSubmit={handleSubmit}>
+            <Paper
+                square
+                component="form"
+                elevation={3}
+                onSubmit={handleSubmit}
+                className={classes.form}
+            >
                 <Typography className={classes.typography}>CADASTRAR</Typography>
                 <Divider className={classes.divider} />
                 <FormInput
@@ -86,11 +92,11 @@ const FormSignup: React.FC = () => {
                     </Alert>
                 )}
                 <Button
-                    className={classes.button}
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     disabled={fetchStates.start}
                     type="submit"
+                    classes={{root: classes.button}}
                 >
                     Cadastrar
                 </Button>
@@ -104,7 +110,6 @@ export default FormSignup;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         form: {
-            borderRadius: '0px',
             width: '100%',
             maxWidth: '500px',
             display: 'flex',
@@ -122,6 +127,6 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: theme.spacing(2),
         },
         divider: {width: '100%', height: '1px'},
-        button: {marginTop: theme.spacing(2)},
+        button: {marginTop: theme.spacing(2), fontWeight: 'bold'},
     })
 );

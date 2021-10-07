@@ -58,7 +58,7 @@ const CreateProject: React.FC = () => {
     return (
         <>
             <Button
-                variant="contained"
+                variant="outlined"
                 color="secondary"
                 startIcon={<IconAdd />}
                 onClick={openModal}

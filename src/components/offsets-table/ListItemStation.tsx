@@ -11,8 +11,8 @@ import {
 
 // import useUpdateStation from './hooks/useUpdateStation'
 
-import StationCoordinate from 'components/tabelaCotas/StationCoordinate';
-import AddStationCoordinate from 'components/tabelaCotas/AddStationCoordinate';
+import StationCoordinate from 'components/offsets-table/StationCoordinate';
+import AddStationCoordinate from 'components/offsets-table/AddStationCoordinate';
 
 import type {TypeStation} from 'state/reducers/currentProject/types';
 import type {TypeFetchStates} from 'types/hooks';
@@ -55,7 +55,6 @@ const ListItemStation: React.FC<Props> = ({station: {name, longitudinal, coordin
 
     useGetStationsCoordinates({userID, projectID, optional: deleteFetchStates.success});
     useDeleteStation({userID, projectID, stationID: id}, deleteFetchStates, setDeleteFetchStates);
-    // useAddCoordinate()
 
     return (
         <>
@@ -69,8 +68,11 @@ const ListItemStation: React.FC<Props> = ({station: {name, longitudinal, coordin
                     </IconButton>
                 </Box>
 
-                <Typography className={classes.name}>{name.toUpperCase()}</Typography>
-
+                <Typography className={classes.name}>{`Longitudinal: ${longitudinal}`}</Typography>
+                <Typography className={classes.name}>{`Baliza: ${name.toUpperCase()}`}</Typography>
+                <Typography className={classes.name}>
+                    {`Coordenadas: ${coordinates.length}`}
+                </Typography>
                 {isOpen ? (
                     <IconButton onClick={handleOpenCollapse}>
                         <IconExpandLess />
@@ -85,14 +87,16 @@ const ListItemStation: React.FC<Props> = ({station: {name, longitudinal, coordin
             <Collapse in={isOpen} timeout="auto" unmountOnExit className={classes.collapse}>
                 <List component="div" disablePadding>
                     {coordinates
-                        .map(({id: coordID, type, vertical, transversal}) => (
+                        .map(({id: coordID, type, vertical, transversal, order}) => (
                             <ListItem key={coordID} divider classes={{root: classes.listItemRoot}}>
                                 <StationCoordinate
                                     userID={userID}
                                     projectID={projectID}
                                     stationID={id}
                                     coordinateID={coordID}
+                                    stationName={name}
                                     type={type}
+                                    order={order}
                                     longitudinal={longitudinal}
                                     transversal={transversal}
                                     vertical={vertical}
@@ -132,7 +136,7 @@ const useStyles = makeStyles((theme: Theme) =>
             maxHeight: '72px',
             display: 'flex',
             justifyContent: 'space-between',
-            background: '#EEEEEE',
+            background: '#fff',
             color: '#000',
             padding: `${theme.spacing(1)}px 0px `,
         },
