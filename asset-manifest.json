@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/TCC-Frontend/static/js/main.a0ae8f0b.chunk.js",
+    "main.js.map": "/TCC-Frontend/static/js/main.a0ae8f0b.chunk.js.map",
+    "runtime-main.js": "/TCC-Frontend/static/js/runtime-main.af6e3899.js",
+    "runtime-main.js.map": "/TCC-Frontend/static/js/runtime-main.af6e3899.js.map",
+    "static/js/2.1b992a82.chunk.js": "/TCC-Frontend/static/js/2.1b992a82.chunk.js",
+    "static/js/2.1b992a82.chunk.js.map": "/TCC-Frontend/static/js/2.1b992a82.chunk.js.map",
+    "static/js/3.9b6eead8.chunk.js": "/TCC-Frontend/static/js/3.9b6eead8.chunk.js",
+    "static/js/3.9b6eead8.chunk.js.map": "/TCC-Frontend/static/js/3.9b6eead8.chunk.js.map",
+    "index.html": "/TCC-Frontend/index.html",
+    "static/js/2.1b992a82.chunk.js.LICENSE.txt": "/TCC-Frontend/static/js/2.1b992a82.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.af6e3899.js",
+    "static/js/2.1b992a82.chunk.js",
+    "static/js/main.a0ae8f0b.chunk.js"
+  ]
+}
