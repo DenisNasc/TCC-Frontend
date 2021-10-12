@@ -1,18 +1,11 @@
 import React from 'react';
 
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Grid, Link, Typography} from '@material-ui/core';
+import {styled} from '@mui/material/styles';
+import {Grid, Link, Typography} from '@mui/material';
 
 const Footer: React.FC = () => {
-    const classes = useStyles();
     return (
-        <Grid
-            container
-            component="footer"
-            justifyContent="flex-start"
-            alignItems="center"
-            className={classes.footer}
-        >
+        <GridRoot container justifyContent="flex-start" alignItems="center">
             <Grid container item xs={12}>
                 <Grid
                     container
@@ -22,19 +15,11 @@ const Footer: React.FC = () => {
                     alignItems="flex-start"
                     xs={4}
                 >
-                    <Typography classes={{root: classes.title}}>Documentação</Typography>
-                    <Link
-                        classes={{root: classes.link}}
-                        href="https://github.com/DenisNasc/TCC-Frontend"
-                    >
+                    <Title>Documentação</Title>
+                    <LinkUseful href="https://github.com/DenisNasc/TCC-Frontend">
                         Frontend
-                    </Link>
-                    <Link
-                        classes={{root: classes.link}}
-                        href="https://github.com/DenisNasc/TCC-Backend"
-                    >
-                        Backend
-                    </Link>
+                    </LinkUseful>
+                    <LinkUseful href="https://github.com/DenisNasc/TCC-Backend">Backend</LinkUseful>
                 </Grid>
                 <Grid
                     container
@@ -44,16 +29,16 @@ const Footer: React.FC = () => {
                     alignItems="flex-start"
                     xs={4}
                 >
-                    <Typography classes={{root: classes.title}}>Instituições</Typography>
-                    <Link classes={{root: classes.link}} href="https://www.portal.ufpa.br/">
+                    <Title>Instituições</Title>
+                    <LinkUseful href="https://www.portal.ufpa.br/">
                         Universidade Federal do Pará
-                    </Link>
-                    <Link classes={{root: classes.link}} href="https://www.itec.ufpa.br/">
+                    </LinkUseful>
+                    <LinkUseful href="https://www.itec.ufpa.br/">
                         Instituto de Tecnologia
-                    </Link>
-                    <Link classes={{root: classes.link}} href="http://fenav.ufpa.br/">
+                    </LinkUseful>
+                    <LinkUseful href="http://fenav.ufpa.br/">
                         Faculdade de Engenharia Naval
-                    </Link>
+                    </LinkUseful>
                 </Grid>
                 <Grid
                     container
@@ -63,7 +48,7 @@ const Footer: React.FC = () => {
                     alignItems="flex-start"
                     xs={4}
                 >
-                    <Typography classes={{root: classes.title}}>Contato Pessoal</Typography>
+                    <Title>Contato Pessoal</Title>
                     <Typography>Email: devdenis@gmail.com</Typography>
                 </Grid>
             </Grid>
@@ -71,26 +56,24 @@ const Footer: React.FC = () => {
             <Grid container item justifyContent="center" alignItems="center" xs={12}>
                 <Typography>Copyright © 2021 Denis Nascimento.</Typography>
             </Grid>
-        </Grid>
+        </GridRoot>
     );
 };
 
 export default Footer;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        footer: {
-            background: 'rgb(48, 56, 70)',
-            color: theme.palette.getContrastText('rgb(48, 56, 70)'),
-            padding: `0px ${theme.spacing(5)}px`,
-            paddingTop: theme.spacing(2),
-            height: '200px',
-            width: '100vw',
-        },
-        title: {
-            fontWeight: 'bold',
-            marginBottom: theme.spacing(1),
-        },
-        link: {color: theme.palette.getContrastText('rgb(48, 56, 70)')},
-    })
-);
+const GridRoot = styled(Grid)(({theme}) => ({
+    background: 'rgb(48, 56, 70)',
+    color: theme.palette.getContrastText('rgb(48, 56, 70)'),
+    padding: `0px ${theme.spacing(5)}px`,
+    paddingTop: theme.spacing(2),
+    height: '200px',
+    width: '100vw',
+}));
+
+const Title = styled(Grid)(({theme}) => ({
+    fontWeight: 'bold',
+    marginBottom: theme.spacing(1),
+}));
+
+const LinkUseful = styled(Link)(({theme}) => ({}));

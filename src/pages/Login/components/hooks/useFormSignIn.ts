@@ -16,7 +16,7 @@ export interface HookParams {
     password: string;
 }
 
-const useFormLogin = (
+const useFormSignIn = (
     states: TypeFetchStates,
     handleState: TypeHandleState,
     handleMessage: TypeHandleMessage,
@@ -84,4 +84,4 @@ const useFormLogin = (
     }, [success]);
 };
 
-export default useFormLogin;
+export default useFormSignIn;

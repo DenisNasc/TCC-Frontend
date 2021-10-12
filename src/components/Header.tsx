@@ -1,39 +1,32 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useContext} from 'react';
 
-import {useDispatch} from 'react-redux';
 import {useHistory, useParams} from 'react-router-dom';
 
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Avatar, Grid, Button, Divider, IconButton, Typography} from '@material-ui/core';
-import {Brightness7 as IconBrightness7, Brightness4 as IconBrightness4} from '@material-ui/icons';
+import {styled, useTheme} from '@mui/material/styles';
+import {Avatar, Grid, Stack, Button, Divider, IconButton, Typography} from '@mui/material';
+import {Brightness7 as IconBrightness7, Brightness4 as IconBrightness4} from '@mui/icons-material';
 
 import useReduxStore from 'hooks/useReduxStore';
 import useLogout from 'hooks/header/useLogout';
-import {APP_CHANGE_THEME} from 'state/actions/app';
+
+import {ColorModeContext} from 'styles';
 
 const Header: React.FC = () => {
+    const history = useHistory();
+    const params = useParams<{userId: string}>();
+    const colorMode = useContext(ColorModeContext);
+    const theme = useTheme();
+    const {
+        user: {id: userID},
+    } = useReduxStore();
+
     const [logoutFetchStates, setLogoutFetchStates] = useState({
         start: false,
         success: false,
         fail: false,
     });
 
-    const classes = useStyles();
-
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const params = useParams<{userId: string}>();
-
-    const {
-        user: {id},
-        app: {darkMode},
-    } = useReduxStore();
-
     useLogout(logoutFetchStates, setLogoutFetchStates);
-
-    const handleTheme = () => {
-        // dispatch({type: APP_CHANGE_THEME, payload: {}});
-    };
 
     const handleAvatarClick = () => {
         history.push(`/${params.userId}/profile`);
@@ -45,77 +38,48 @@ const Header: React.FC = () => {
     }, []);
 
     return (
-        <Grid
-            container
-            component="header"
-            justifyContent="space-between"
-            alignItems="center"
-            xs={12}
-            classes={{root: classes.container}}
-        >
+        <GridRoot container justifyContent="space-between" alignItems="center" xs={12}>
             <Grid container item justifyContent="flex-start" xs={6}>
-                <Typography classes={{root: classes.logo}}>STATIONS - Versão ALFA</Typography>
+                <Logo>STATIONS - Versão ALFA</Logo>
             </Grid>
 
             <Grid container item justifyContent="flex-end" xs={6}>
-                <nav className={classes.nav}>
-                    <IconButton classes={{root: classes.iconButtonRoot}} onClick={handleTheme}>
-                        {darkMode ? <IconBrightness4 /> : <IconBrightness7 />}
-                    </IconButton>
-                    {id && (
+                <Stack direction="row" alignItems="center">
+                    <ButtonTheme onClick={colorMode.toggleColorMode}>
+                        {theme.palette.mode === 'dark' ? <IconBrightness4 /> : <IconBrightness7 />}
+                    </ButtonTheme>
+
+                    {userID && (
                         <>
-                            <Divider orientation="vertical" flexItem className={classes.divider} />
-                            <Avatar className={classes.avatar} onClick={handleAvatarClick} />
-                            <Button
-                                classes={{root: classes.logoutButtonRoot}}
-                                variant="contained"
-                                onClick={handleLogout}
-                            >
+                            <Divider orientation="vertical" flexItem />
+                            <ButtonUser onClick={handleAvatarClick} />
+                            <ButtonLogout variant="contained" onClick={handleLogout}>
                                 SAIR
-                            </Button>
+                            </ButtonLogout>
                         </>
                     )}
-                </nav>
+                </Stack>
             </Grid>
-        </Grid>
+        </GridRoot>
     );
 };
 
 export default Header;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        container: {
-            height: '60px',
-            padding: `0px ${theme.spacing(8)}px`,
-            borderBottom: '1px solid rgb(218, 220, 224)',
-            position: 'sticky',
-        },
-        logo: {fontWeight: 'bold'},
-        nav: {
-            display: 'flex',
-            alignItems: 'center',
-            margin: '0px',
-            padding: '0px',
-        },
-        divider: {
-            marginLeft: theme.spacing(3),
-        },
-        avatar: {
-            marginLeft: theme.spacing(3),
-            '&:hover': {
-                cursor: 'pointer',
-            },
-        },
-        iconButtonRoot: {},
-        logoutButtonRoot: {
-            color: '#fff',
-            background: theme.palette.error.main,
-            '&:hover': {
-                background: theme.palette.error.dark,
-            },
-            fontWeight: 'bold',
-            marginLeft: theme.spacing(3),
-        },
-    })
-);
+const GridRoot = styled(Grid)(({theme}) => ({
+    height: '60px',
+    padding: `0px ${theme.spacing(8)}`,
+    borderBottom: '1px solid rgb(218, 220, 224)',
+    position: 'sticky',
+}));
+
+const Logo = styled(Typography)(({theme}) => ({
+    fontWeight: 'bold',
+}));
+
+const ButtonTheme = styled(IconButton)(({theme}) => ({
+    fontWeight: 'bold',
+}));
+
+const ButtonLogout = styled(Button)(({theme}) => ({}));
+const ButtonUser = styled(Avatar)(({theme}) => ({}));

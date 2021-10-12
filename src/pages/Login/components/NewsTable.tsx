@@ -1,6 +1,7 @@
 import React from 'react';
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Table, TableHead, TableBody, TableRow, TableCell, Paper} from '@material-ui/core';
+
+import {styled} from '@mui/material/styles';
+import {Table, TableHead, TableBody, TableRow, TableCell} from '@mui/material';
 
 const createData = (date: string, name: string, description: string, version: string) => ({
     date,
@@ -20,21 +21,13 @@ const newsRows = [
 ];
 
 const NewsTable: React.FC = () => {
-    const classes = useStyles();
-
     return (
-        <Table component={Paper} elevation={3} size="small" className={classes.table}>
+        <TableRoot size="small">
             <TableHead>
                 <TableRow>
-                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
-                        DATA
-                    </TableCell>
-                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
-                        VERSÃO
-                    </TableCell>
-                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
-                        NOVIDADES
-                    </TableCell>
+                    <CellHeader align="center">DATA</CellHeader>
+                    <CellHeader align="center">VERSÃO</CellHeader>
+                    <CellHeader align="center">NOVIDADES</CellHeader>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -46,24 +39,20 @@ const NewsTable: React.FC = () => {
                     </TableRow>
                 ))}
             </TableBody>
-        </Table>
+        </TableRoot>
     );
 };
 
 export default NewsTable;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        table: {
-            maxWidth: '800px',
-            maxHeight: '430px',
-            marginTop: theme.spacing(2),
-            overflowY: 'auto',
-            overflowX: 'auto',
-        },
+const TableRoot = styled(Table)(({theme}) => ({
+    maxWidth: '800px',
+    maxHeight: '430px',
+    marginTop: theme.spacing(2),
+    overflowY: 'auto',
+    overflowX: 'auto',
+}));
 
-        tableCellRoot: {},
-
-        tableCellHeader: {fontWeight: 'bold'},
-    })
-);
+const CellHeader = styled(TableCell)(({theme}) => ({
+    fontWeight: 'bold',
+}));

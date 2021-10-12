@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {TextField, InputLabelProps, InputProps} from '@material-ui/core';
+import {styled} from '@mui/material/styles';
+import {TextField, InputLabelProps, InputProps} from '@mui/material';
 
 interface Props {
     id: string;
@@ -10,7 +10,7 @@ interface Props {
     type?: string;
     setValue: React.Dispatch<React.SetStateAction<any>>;
     values: any;
-    variant?: 'outlined' | 'filled' | 'standard';
+    variant?: 'filled' | 'outlined' | 'standard';
 }
 
 const FormInput: React.FC<Props> = ({
@@ -22,10 +22,6 @@ const FormInput: React.FC<Props> = ({
     values,
     setValue,
 }) => {
-    const classes = useStyles();
-    const classInputLabel = useStylesInputLabelProps();
-    const classInput = useStylesInputProps();
-
     const handleTextInput = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         const {value} = event.target;
 
@@ -33,10 +29,7 @@ const FormInput: React.FC<Props> = ({
     };
 
     return (
-        <TextField
-            className={classes.textField}
-            InputLabelProps={{classes: classInputLabel} as Partial<InputLabelProps>}
-            InputProps={{classes: classInput} as Partial<InputProps>}
+        <InputForm
             id={id}
             label={label}
             type={type}
@@ -50,32 +43,4 @@ const FormInput: React.FC<Props> = ({
 
 export default FormInput;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        textField: {
-            width: '100%',
-            marginTop: theme.spacing(2),
-        },
-    })
-);
-
-const useStylesInputLabelProps = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            backgroundColor: 'none',
-            color: theme.palette.primary.main,
-        },
-        focused: {},
-    })
-);
-
-const useStylesInputProps = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            overflow: 'hidden',
-            transition: theme.transitions.create(['border-color', 'box-shadow']),
-        },
-
-        focused: {},
-    })
-);
+const InputForm = styled(TextField)();

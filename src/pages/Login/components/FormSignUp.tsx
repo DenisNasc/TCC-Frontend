@@ -1,16 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import {Redirect} from 'react-router-dom';
 
-import {Theme, makeStyles, createStyles} from '@material-ui/core/styles';
-import {Button, Divider, Paper, Typography} from '@material-ui/core';
-import {Alert} from '@material-ui/lab';
+import {styled} from '@mui/material/styles';
+import {Alert, Button, Divider, Paper, Typography} from '@mui/material';
 
 import FormInput from 'components/shared/FormInput';
 
 import useReduxStore from 'hooks/useReduxStore';
-import useFormSignUp from 'components/login/hooks/useFormSignUp';
-
-import type {PropsDisplayMessage} from 'components/shared/DisplayMessage';
+import useFormSignUp from 'pages/Login/components/hooks/useFormSignUp';
 
 const FormSignup: React.FC = () => {
     const {
@@ -24,14 +21,12 @@ const FormSignup: React.FC = () => {
         password: '',
         confirmPassword: '',
     });
-    const [serverMessage, setServerMessage] = useState<PropsDisplayMessage>({
+    const [serverMessage, setServerMessage] = useState({
         message: '',
         type: 'error',
     });
 
-    const classes = useStyles();
-
-    const handleSubmit = useCallback((event: React.FormEvent<HTMLDivElement>) => {
+    const handleSingUp = useCallback((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         setFetchStates({start: true, success: false, fail: false});
     }, []);
@@ -41,15 +36,9 @@ const FormSignup: React.FC = () => {
     return (
         <>
             {id && <Redirect to="/home" />}
-            <Paper
-                square
-                component="form"
-                elevation={3}
-                onSubmit={handleSubmit}
-                className={classes.form}
-            >
-                <Typography className={classes.typography}>CADASTRAR</Typography>
-                <Divider className={classes.divider} />
+            <Form square elevation={3}>
+                <Title>CADASTRAR</Title>
+                <Divider />
                 <FormInput
                     id="name"
                     label="Name"
@@ -83,50 +72,43 @@ const FormSignup: React.FC = () => {
                     setValue={setFormValues}
                 />
                 {serverMessage.message && (
-                    <Alert
-                        severity={serverMessage.type}
-                        variant="standard"
-                        className={classes.displayMessage}
-                    >
-                        {serverMessage.message}
-                    </Alert>
+                    <AlertMessage variant="standard">{serverMessage.message}</AlertMessage>
                 )}
-                <Button
+                <ButtonSignUp
                     variant="contained"
                     color="secondary"
                     disabled={fetchStates.start}
-                    type="submit"
-                    classes={{root: classes.button}}
+                    onClick={handleSingUp}
                 >
                     Cadastrar
-                </Button>
-            </Paper>
+                </ButtonSignUp>
+            </Form>
         </>
     );
 };
 
 export default FormSignup;
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        form: {
-            width: '100%',
-            maxWidth: '500px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: theme.spacing(3),
-            color: theme.palette.getContrastText(theme.palette.background.paper),
-        },
-        typography: {
-            alignSelf: 'flex-start',
-            marginBottom: theme.spacing(1),
-            fontWeight: 'bold',
-        },
-        displayMessage: {
-            marginTop: theme.spacing(2),
-        },
-        divider: {width: '100%', height: '1px'},
-        button: {marginTop: theme.spacing(2), fontWeight: 'bold'},
-    })
-);
+const Form = styled(Paper)(({theme}) => ({
+    width: '100%',
+    maxWidth: '500px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(3),
+}));
+
+const AlertMessage = styled(Alert)(({theme}) => ({
+    marginTop: theme.spacing(2),
+}));
+
+const Title = styled(Typography)(({theme}) => ({
+    alignSelf: 'flex-start',
+    marginBottom: theme.spacing(1),
+    fontWeight: 'bold',
+}));
+
+const ButtonSignUp = styled(Button)(({theme}) => ({
+    marginTop: theme.spacing(2),
+    fontWeight: 'bold',
+}));

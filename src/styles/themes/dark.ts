@@ -1,25 +1,13 @@
-import {createTheme} from '@material-ui/core/styles';
+import {createTheme} from '@mui/material';
 
 export const theme = createTheme({
     typography: {
-        fontFamily: ['Cambria'].join(','),
+        fontFamily: ['Noto Sans', 'Cantarell'].join(','),
         fontSize: 14,
     },
-    palette: {
-        type: 'dark',
-        primary: {
-            main: '#fff',
-            contrastText: '#000',
-        },
 
-        secondary: {
-            main: '#f0f',
-            contrastText: '#FFF',
-        },
-        background: {
-            paper: '#f0f',
-            default: '#E3E7F1',
-        },
+    palette: {
+        mode: 'dark',
     },
 });
 
