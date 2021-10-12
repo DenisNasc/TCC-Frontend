@@ -30,14 +30,8 @@ const Login: React.FC = () => {
     return (
         <>
             <Header />
-            <Grid
-                container
-                className={classes.gridContainer}
-                wrap="wrap"
-                direction={matches ? 'row' : 'column'}
-                spacing={3}
-            >
-                <Grid container item xs={12} lg={8}>
+            <Grid container className={classes.gridContainer} wrap="wrap">
+                <Grid container item xs={12} lg={8} className={classes.gridItem}>
                     <Grid
                         container
                         direction="column"
@@ -78,7 +72,7 @@ const Login: React.FC = () => {
                     </Grid>
                 </Grid>
 
-                <Grid container item xs={12} lg={4}>
+                <Grid container item xs={12} lg={4} className={classes.gridItem}>
                     <Grid
                         container
                         item
@@ -110,8 +104,10 @@ const Login: React.FC = () => {
                         )}
                     </Grid>
                 </Grid>
+                {/* <Grid container item xs={12} alignItems="flex-end">
+                    <Footer />
+                </Grid> */}
             </Grid>
-            <Footer />
         </>
     );
 };
@@ -120,13 +116,8 @@ export default Login;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        gridContainer: {
-            padding: theme.spacing(2),
-            [theme.breakpoints.down('md')]: {
-                backgroundColor: 'none',
-            },
-        },
-
+        gridContainer: {},
+        gridItem: {padding: theme.spacing(2)},
         paper: {background: 'none'},
         title: {
             textAlign: 'left',

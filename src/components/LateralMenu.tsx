@@ -48,7 +48,7 @@ export default LateralMenu;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         list: {
-            height: 'calc(100vh - 260px)',
+            height: 'calc(100vh - 60px)',
             width: '100%',
             margin: '0px',
             padding: '0px',

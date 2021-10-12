@@ -60,7 +60,14 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
         <>
             <Helmet title={title} />
 
-            <Grid container direction="row" xs={12} justify="space-between" alignItems="flex-start">
+            <Grid
+                container
+                direction="row"
+                xs={12}
+                justify="space-between"
+                alignItems="flex-start"
+                classes={{root: classes.root}}
+            >
                 <Grid container item justifyContent="center" alignItems="center" xs={12}>
                     <Header />
                 </Grid>
@@ -104,8 +111,6 @@ const DefaultTemplate: React.FC<PropsDefaultTemplate> = ({children, title}) => {
                     </Grid>
                 </Grid>
             </Grid>
-
-            <Footer />
         </>
     );
 };
@@ -114,7 +119,8 @@ export default DefaultTemplate;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        container: {padding: theme.spacing(3), maxHeight: 'calc(100vh - 260px)', overflowY: 'auto'},
+        root: {height: 'calc(100vh - 60px)'},
+        container: {padding: theme.spacing(3), maxHeight: 'calc(100vh - 60px)', overflowY: 'auto'},
         breadcrumbs: {marginBottom: theme.spacing(3)},
         footer: {
             background: 'rgb(48, 56, 70)',

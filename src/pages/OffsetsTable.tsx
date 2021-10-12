@@ -110,9 +110,9 @@ const TabelaCotas: React.FC = () => {
                         </Grid>
                     </Grid>
 
-                    <Grid container item xs={6}>
+                    {/* <Grid container item xs={6}>
                         <ChartStation />
-                    </Grid>
+                    </Grid> */}
                 </Grid>
 
                 <Modal open={isOpen} onClose={closeModal}>

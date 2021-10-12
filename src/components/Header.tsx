@@ -68,10 +68,10 @@ const Header: React.FC = () => {
                             <Avatar className={classes.avatar} onClick={handleAvatarClick} />
                             <Button
                                 classes={{root: classes.logoutButtonRoot}}
-                                variant="outlined"
+                                variant="contained"
                                 onClick={handleLogout}
                             >
-                                LOGOUT
+                                SAIR
                             </Button>
                         </>
                     )}

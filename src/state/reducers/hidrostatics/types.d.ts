@@ -6,7 +6,7 @@ export type TypeHidrostatic = {
     displacement: number;
     LCB: number;
     VCB: number;
-    KMT: number;
+    BM: number;
     MT1: number;
     LCF: number;
     CB: number;

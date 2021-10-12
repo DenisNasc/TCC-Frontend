@@ -65,87 +65,87 @@ const CurvasHidrostaticas: React.FC = () => {
 
     return (
         <DefaultTemplate title={`${name} - Curvas Hidrostaticas`}>
-            <TableContainer component={Paper}>
-                <Table stickyHeader>
-                    <TableHead classes={{root: classes.tableHeadRoot}}>
-                        <TableRow>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="left">
-                                Calado [m]
+            <Table component={Paper} elevation={3}>
+                <TableHead classes={{root: classes.tableHeadRoot}}>
+                    <TableRow>
+                        <TableCell
+                            rowSpan={2}
+                            classes={{root: classes.tableHeadCell}}
+                            align="center"
+                        >
+                            Calado [m]
+                        </TableCell>
+                        <TableCell
+                            colSpan={4}
+                            classes={{root: classes.cellBouyancy}}
+                            align="center"
+                        >
+                            Carena
+                        </TableCell>
+                        <TableCell
+                            colSpan={3}
+                            classes={{root: classes.cellFlotation}}
+                            align="center"
+                        >
+                            Área de Flutuação
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell classes={{root: classes.cellBouyancy}} align="center">
+                            Volume [m³]
+                        </TableCell>
+                        <TableCell classes={{root: classes.cellBouyancy}} align="center">
+                            Deslocamento [ton]
+                        </TableCell>
+                        <TableCell classes={{root: classes.cellBouyancy}} align="center">
+                            LCB [m]
+                        </TableCell>
+                        <TableCell classes={{root: classes.cellBouyancy}} align="center">
+                            VCB [m]
+                        </TableCell>
+                        <TableCell classes={{root: classes.cellFlotation}} align="center">
+                            BMT [m]
+                        </TableCell>
+                        <TableCell classes={{root: classes.cellFlotation}} align="center">
+                            MT1
+                        </TableCell>
+                        <TableCell classes={{root: classes.cellFlotation}} align="center">
+                            LCF
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                    {hidro.map((value, i) => (
+                        <TableRow key={drafts[i]}>
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(drafts[i])}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                Volume [m³]
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.volume)}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                Deslocamento [ton]
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.displacement)}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                LCB [m]
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.LCB)}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                VCB [m]
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.VCB)}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                KMT [m]
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.BM)}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                MT1
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.MT1)}
                             </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                LCF
-                            </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                CB
-                            </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                CP
-                            </TableCell>
-                            <TableCell classes={{root: classes.tableHeadCell}} align="center">
-                                Superfície Molhada [m²]
+                            <TableCell classes={{root: classes.tableBodyCell}} align="center">
+                                {formt4decimals(value.LCF)}
                             </TableCell>
                         </TableRow>
-                    </TableHead>
-
-                    <TableBody>
-                        {hidro.map((value, i) => (
-                            <TableRow key={drafts[i]}>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(drafts[i])}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.volume)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.displacement)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.LCB)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.VCB)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.KMT)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.MT1)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.LCF)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.CB)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.CP)}
-                                </TableCell>
-                                <TableCell classes={{root: classes.tableBodyCell}} align="center">
-                                    {formt4decimals(value.wetedSurface)}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    ))}
+                </TableBody>
+            </Table>
         </DefaultTemplate>
     );
 };
@@ -156,11 +156,18 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         table: {},
         tableHeadRoot: {},
-        tableHeadCell: {
-            backgroundColor: theme.palette.background.paper,
-            fontSize: theme.typography.fontSize * 1.2,
+        tableHeadCell: {fontWeight: 'bold'},
+        cellBouyancy: {
+            backgroundColor: '#E5DCC3',
+            color: theme.palette.getContrastText('#E5DCC3'),
             fontWeight: 'bold',
         },
+        cellFlotation: {
+            backgroundColor: '#C7BEA2',
+            color: theme.palette.getContrastText('#C7BEA2'),
+            fontWeight: 'bold',
+        },
+
         tableBodyCell: {
             backgroundColor: theme.palette.background.default,
         },

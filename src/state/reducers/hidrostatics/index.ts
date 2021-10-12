@@ -14,7 +14,7 @@ const initialState: TypeHidrostaticsState = {
             displacement: 0,
             LCB: 0,
             VCB: 0,
-            KMT: 0,
+            BM: 0,
             MT1: 0,
             LCF: 0,
             CB: 0,

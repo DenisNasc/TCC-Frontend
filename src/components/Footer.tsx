@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         <Grid
             container
             component="footer"
-            justifyContent="space-between"
+            justifyContent="flex-start"
             alignItems="center"
             className={classes.footer}
         >
@@ -82,11 +82,8 @@ const useStyles = makeStyles((theme: Theme) =>
         footer: {
             background: 'rgb(48, 56, 70)',
             color: theme.palette.getContrastText('rgb(48, 56, 70)'),
-            padding: `0px ${theme.spacing(50)}px`,
+            padding: `0px ${theme.spacing(5)}px`,
             paddingTop: theme.spacing(2),
-
-            position: 'absolute',
-            bottom: '0px',
             height: '200px',
             width: '100vw',
         },

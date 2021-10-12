@@ -35,18 +35,14 @@ const NewsTable: React.FC = () => {
                     <TableCell align="center" classes={{root: classes.tableCellHeader}}>
                         NOVIDADES
                     </TableCell>
-                    <TableCell align="center" classes={{root: classes.tableCellHeader}}>
-                        DESCRIÇÃO
-                    </TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {newsRows.map(({date, version, name, description}) => (
+                {newsRows.map(({date, version, name}) => (
                     <TableRow key={name}>
                         <TableCell align="center">{date}</TableCell>
                         <TableCell align="center">{version}</TableCell>
                         <TableCell align="center">{name}</TableCell>
-                        <TableCell align="center">{description}</TableCell>
                     </TableRow>
                 ))}
             </TableBody>
@@ -63,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
             maxHeight: '430px',
             marginTop: theme.spacing(2),
             overflowY: 'auto',
+            overflowX: 'auto',
         },
 
         tableCellRoot: {},
